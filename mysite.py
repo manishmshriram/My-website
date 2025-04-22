@@ -1,6 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import requests
 
 # Set page configuration
 st.set_page_config(
@@ -60,7 +59,7 @@ st.markdown("""
     }
     .story-text {
         font-size: 1.2em;
-        color: #4E342E;
+        color: #FF6F00;
         line-height: 1.8;
         text-align: justify;
         max-width: 80%;
@@ -114,12 +113,10 @@ st.markdown("""
         display: inline-block;
         background-color: #F57F17;
         color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-size: 1.2em;
-        text-align: center;
+        padding: 15px;
+        border-radius: 50%;
+        font-size: 2em;
         cursor: pointer;
-        margin-bottom: 2em;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease;
     }
@@ -149,8 +146,8 @@ st.markdown("""
 st.markdown("<div class='title'>🎞️ Manish's Aesthetic Edits</div>", unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Soft, minimal edits of your favorite films and music</div>', unsafe_allow_html=True)
 
-# --- 🎶 Music Button (Play Button for Background Music) ---
-st.markdown('<div class="music-button" onclick="document.getElementById(\'bgMusic\').play()">Play Music</div>', unsafe_allow_html=True)
+# --- 🎶 Postmodernist Music Button (Icon to Play Music) ---
+st.markdown('<div class="music-button" onclick="document.getElementById(\'bgMusic\').play()">🎶</div>', unsafe_allow_html=True)
 
 # --- 🎶 Background Music ---
 audio_url = "https://raw.githubusercontent.com/manishmshriram/My-website/main/lalaland.mp3"
@@ -188,8 +185,7 @@ st.markdown('<div class="story-box transition">', unsafe_allow_html=True)
 st.markdown('<div class="story-title">A Poorly Rescored Oscar-Winning Disney Film</div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="story-text">
-I’ve taken one of Disney’s most beloved animated films and... let’s just say, "rescored" it. The original score is iconic, but I thought I’d throw my hat in the ring and give it a fresh, albeit unusual spin. 
-You might question some choices, but hey, creativity comes from bending the rules a little, right?
+    I've edited the Oscar-winning short Paperman and added one of my favorite tracks, "Arrival of the Birds" by The Cinematic Orchestra. Just a small edit to give the film a fresh feel with this beautiful piece of music.
 </div>
 """, unsafe_allow_html=True)
 st.markdown('<div style="text-align:center;">', unsafe_allow_html=True)
@@ -239,6 +235,6 @@ st.markdown("""
 st.markdown("""
     <hr>
     <div class="footer">
-        © 2025 Manish Shriram | Aesthetic Edits
+        Designed and created with love by <a href="https://manishshriramart.streamlit.app/" target="_blank">Manish Shriram</a>
     </div>
 """, unsafe_allow_html=True)
