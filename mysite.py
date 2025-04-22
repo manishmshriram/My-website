@@ -123,6 +123,14 @@ st.markdown("""
     .music-button:hover {
         transform: scale(1.1);
     }
+    .glowing-text {
+        animation: glowing 1.5s ease-in-out infinite;
+    }
+    @keyframes glowing {
+        0% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
+        50% { color: #FF5733; text-shadow: 0 0 5px #FF5733, 0 0 10px #FF5733, 0 0 15px #FF5733; }
+        100% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
+    }
     .footer {
         font-size: 0.9em;
         color: #999;
@@ -151,7 +159,7 @@ st.markdown('<div class="music-button" onclick="document.getElementById(\'bgMusi
 
 # --- 🎶 Background Music ---
 audio_url = "https://raw.githubusercontent.com/manishmshriram/My-website/main/lalaland.mp3"
-st.markdown(f'<audio id="bgMusic" loop preload="auto"><source src="{audio_url}" type="audio/mp3"></audio>', unsafe_allow_html=True)
+st.markdown(f'<audio id="bgMusic" autoplay loop preload="auto"><source src="{audio_url}" type="audio/mp3"></audio>', unsafe_allow_html=True)
 
 # --- 📺 Display All YouTube Videos (10 Links) ---
 video_links = [
@@ -185,7 +193,7 @@ st.markdown('<div class="story-box transition">', unsafe_allow_html=True)
 st.markdown('<div class="story-title">A Poorly Rescored Oscar-Winning Disney Film</div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="story-text">
-    I've edited the Oscar-winning short Paperman and added one of my favorite tracks, "Arrival of the Birds" by The Cinematic Orchestra. Just a small edit to give the film a fresh feel with this beautiful piece of music.
+    I've edited the Oscar-winning short *Paperman* and added one of my favorite tracks, "Arrival of the Birds" by The Cinematic Orchestra. Just a small edit to give the film a fresh feel with this beautiful piece of music.
 </div>
 """, unsafe_allow_html=True)
 st.markdown('<div style="text-align:center;">', unsafe_allow_html=True)
@@ -197,7 +205,7 @@ st.markdown('<div class="story-box transition" style="background-color: #FFEB3B;
 st.markdown('<div class="story-title">My Short Story</div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="story-text">
-    Click below to read my short story. It's a mix of nostalgia, film obsession, and creative chaos. Dive into the madness!
+    Click below to read my short story and immerse yourself in a creative journey through words.
 </div>
 """, unsafe_allow_html=True)
 st.markdown("""
@@ -212,7 +220,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # --- 📚 About Me Section ---
 st.markdown('<div class="about-me-box transition">', unsafe_allow_html=True)
-st.markdown('<div class="about-me-title">About Me</div>', unsafe_allow_html=True)
+st.markdown('<div class="about-me-title glowing-text">About Me</div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="about-me-text">
     I spent years watching films, getting lost in music, and skillfully ignoring any form of career trajectory. These edits? They're fragments from that beautifully chaotic phase where I made stuff without thinking about algorithms, audiences, or "success."
@@ -224,17 +232,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# --- 📜 Final Thought (Visually Unique) ---
+# --- 📝 Footer ---
 st.markdown("""
-<div class="cta-box transition">
-    "Found this corner of the internet? You’ll scroll back to Instagram, overthink, and probably end up here again. My presence lives here — somewhere between the lines."
+<div class="footer transition">
+    Designed and created with love by <a href="https://manishshriramart.streamlit.app/" target="_blank">Manish Shriram</a>
 </div>
-""", unsafe_allow_html=True)
-
-# --- 💬 Footer ---
-st.markdown("""
-    <hr>
-    <div class="footer">
-        Designed and created with love by <a href="https://manishshriramart.streamlit.app/" target="_blank">Manish Shriram</a>
-    </div>
 """, unsafe_allow_html=True)
