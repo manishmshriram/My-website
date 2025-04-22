@@ -85,6 +85,12 @@ st.markdown("""
         color: #4E342E;
         line-height: 1.8;
         text-align: justify;
+        animation: glowing 1.5s ease-in-out infinite;
+    }
+    @keyframes glowing {
+        0% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
+        50% { color: #FF5733; text-shadow: 0 0 5px #FF5733, 0 0 10px #FF5733, 0 0 15px #FF5733; }
+        100% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
     }
     .cta-box {
         text-align: center;
@@ -109,28 +115,6 @@ st.markdown("""
             opacity: 1;
         }
     }
-    .music-button {
-        display: inline-block;
-        background-color: #F57F17;
-        color: white;
-        padding: 15px;
-        border-radius: 50%;
-        font-size: 2em;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease;
-    }
-    .music-button:hover {
-        transform: scale(1.1);
-    }
-    .glowing-text {
-        animation: glowing 1.5s ease-in-out infinite;
-    }
-    @keyframes glowing {
-        0% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
-        50% { color: #FF5733; text-shadow: 0 0 5px #FF5733, 0 0 10px #FF5733, 0 0 15px #FF5733; }
-        100% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
-    }
     .footer {
         font-size: 0.9em;
         color: #999;
@@ -154,12 +138,16 @@ st.markdown("""
 st.markdown("<div class='title'>🎞️ Manish's Aesthetic Edits</div>", unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Soft, minimal edits of your favorite films and music</div>', unsafe_allow_html=True)
 
-# --- 🎶 Postmodernist Music Button (Icon to Play Music) ---
-st.markdown('<div class="music-button" onclick="document.getElementById(\'bgMusic\').play()">🎶</div>', unsafe_allow_html=True)
-
-# --- 🎶 Background Music ---
+# --- 🎶 Audio Play/Pause Button ---
 audio_url = "https://raw.githubusercontent.com/manishmshriram/My-website/main/lalaland.mp3"
 st.markdown(f'<audio id="bgMusic" loop preload="auto" style="display:none;"><source src="{audio_url}" type="audio/mp3"></audio>', unsafe_allow_html=True)
+
+st.markdown("""
+<div style="text-align: center;">
+    <button onclick="document.getElementById('bgMusic').play()">▶️ Play Music</button>
+    <button onclick="document.getElementById('bgMusic').pause()">⏸️ Pause Music</button>
+</div>
+""", unsafe_allow_html=True)
 
 # --- 📺 Display All YouTube Videos (10 Links) ---
 video_links = [
@@ -215,7 +203,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<div class="about-me-box transition">', unsafe_allow_html=True)
 st.markdown('<div class="about-me-title glowing-text">About Me</div>', unsafe_allow_html=True)
 st.markdown("""
-<div class="about-me-text">
+<div class="about-me-text glowing-text">
     I spent years watching films, getting lost in music, and skillfully ignoring any form of career trajectory. These edits? They're fragments from that beautifully chaotic phase where I made stuff without thinking about algorithms, audiences, or "success."
 </div>
 """, unsafe_allow_html=True)
@@ -235,5 +223,12 @@ st.markdown("</div>", unsafe_allow_html=True)
 st.markdown("""
 <div class="footer transition">
     Designed and created with love by <a href="https://manishshriramart.streamlit.app/" target="_blank">Manish Shriram</a>
+</div>
+""", unsafe_allow_html=True)
+
+# --- Final Note ---
+st.markdown("""
+<div class="footer transition" style="color: #FF4081;">
+    Found this corner of the internet? You’ll scroll back to Instagram, overthink, and probably end up here again. My presence lives here — somewhere between the lines.
 </div>
 """, unsafe_allow_html=True)
