@@ -131,6 +131,17 @@ st.markdown("""
     .cta-box:hover {
         color: #F57F17;
     }
+    .final-note {
+        font-size: 1.5em;
+        color: #D32F2F;
+        text-align: center;
+        font-style: italic;
+        cursor: pointer;
+        transition: color 0.3s ease-in-out;
+    }
+    .final-note:hover {
+        color: #FF4081;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -138,14 +149,17 @@ st.markdown("""
 st.markdown("<div class='title'>🎞️ Manish's Aesthetic Edits</div>", unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Soft, minimal edits of your favorite films and music</div>', unsafe_allow_html=True)
 
-# --- 🎶 Audio Play/Pause Button ---
+# --- 🎶 Audio Play Button ---
 audio_url = "https://raw.githubusercontent.com/manishmshriram/My-website/main/lalaland.mp3"
+
+# Embed audio in a way that works with user interaction
 st.markdown(f'<audio id="bgMusic" loop preload="auto" style="display:none;"><source src="{audio_url}" type="audio/mp3"></audio>', unsafe_allow_html=True)
 
+# Music icon for play and stop (click event triggers play)
 st.markdown("""
-<div style="text-align: center;">
-    <button onclick="document.getElementById('bgMusic').play()">▶️ Play Music</button>
-    <button onclick="document.getElementById('bgMusic').pause()">⏸️ Pause Music</button>
+<div style="text-align:center; cursor:pointer;" onclick="var audio = document.getElementById('bgMusic'); 
+if (audio.paused) { audio.play(); } else { audio.pause(); }">
+    <img src="https://img.icons8.com/ios/452/music.png" width="50" height="50"/>
 </div>
 """, unsafe_allow_html=True)
 
@@ -184,19 +198,13 @@ st.markdown("""
     I've edited the Oscar-winning short *Paperman* and added one of my favorite tracks, "Arrival of the Birds" by The Cinematic Orchestra. Just a small edit to give the film a fresh feel with this beautiful piece of music.
 </div>
 """, unsafe_allow_html=True)
-st.markdown('<div style="text-align:center;">', unsafe_allow_html=True)
-components.iframe("https://www.youtube.com/embed/EI__XUxw8j8?si=tWWDaBgCvtU5QCJx", height=315)
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
-# --- ✍️ Short Story Section with Link ---
-st.markdown('<div class="story-box transition" style="background-color: #FFEB3B;">', unsafe_allow_html=True)
-st.markdown('<div class="story-title">My Short Story</div>', unsafe_allow_html=True)
+# --- 💭 Final Note ---
+st.markdown('<div class="final-note">', unsafe_allow_html=True)
 st.markdown("""
-<div class="story-text">
-    Click below to read my short story and immerse yourself in a creative journey through words.
-</div>
+    Found this corner of the internet? You’ll scroll back to Instagram, overthink, and probably end up here again. My presence lives here — somewhere between the lines.
 """, unsafe_allow_html=True)
-st.markdown('<div class="cta-box transition"><a href="https://manishshriramart.blog" target="_blank">🔗 Read My Short Story</a></div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # --- 💡 About Me Section ---
@@ -218,17 +226,3 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
-
-# --- 📝 Footer ---
-st.markdown("""
-<div class="footer transition">
-    Designed and created with love by <a href="https://manishshriramart.streamlit.app/" target="_blank">Manish Shriram</a>
-</div>
-""", unsafe_allow_html=True)
-
-# --- Final Note ---
-st.markdown("""
-<div class="footer transition" style="color: #FF4081;">
-    Found this corner of the internet? You’ll scroll back to Instagram, overthink, and probably end up here again. My presence lives here — somewhere between the lines.
-</div>
-""", unsafe_allow_html=True)
