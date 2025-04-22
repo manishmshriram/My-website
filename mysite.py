@@ -159,7 +159,7 @@ st.markdown('<div class="music-button" onclick="document.getElementById(\'bgMusi
 
 # --- 🎶 Background Music ---
 audio_url = "https://raw.githubusercontent.com/manishmshriram/My-website/main/lalaland.mp3"
-st.markdown(f'<audio id="bgMusic" autoplay loop preload="auto"><source src="{audio_url}" type="audio/mp3"></audio>', unsafe_allow_html=True)
+st.markdown(f'<audio id="bgMusic" loop preload="auto" style="display:none;"><source src="{audio_url}" type="audio/mp3"></audio>', unsafe_allow_html=True)
 
 # --- 📺 Display All YouTube Videos (10 Links) ---
 video_links = [
@@ -208,29 +208,28 @@ st.markdown("""
     Click below to read my short story and immerse yourself in a creative journey through words.
 </div>
 """, unsafe_allow_html=True)
-st.markdown("""
-<div style="text-align:center;">
-    <a href="https://manish.shriram.art.blog" target="_blank">
-        <img src="https://img.icons8.com/ios/452/blog.png" width="40" alt="Blog Icon"/> 
-        Read My Short Story
-    </a>
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div class="cta-box transition"><a href="https://manishshriramart.blog" target="_blank">🔗 Read My Short Story</a></div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# --- 📚 About Me Section ---
+# --- 💡 About Me Section ---
 st.markdown('<div class="about-me-box transition">', unsafe_allow_html=True)
 st.markdown('<div class="about-me-title glowing-text">About Me</div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="about-me-text">
     I spent years watching films, getting lost in music, and skillfully ignoring any form of career trajectory. These edits? They're fragments from that beautifully chaotic phase where I made stuff without thinking about algorithms, audiences, or "success."
-    <br><br>
+</div>
+""", unsafe_allow_html=True)
+st.markdown("""
+<div class="about-me-text glowing-text">
     I know most people won’t watch this—and that’s fine. This isn’t some grand portfolio. It’s a memory archive. A mood board of my mind. An echo of late nights spent obsessing over frames and feelings instead of job titles.
-    <br><br>
+</div>
+""", unsafe_allow_html=True)
+st.markdown("""
+<div class="about-me-text glowing-text">
     If you’re here, watching—cool. You’re part of this little accidental time capsule now. Welcome to my personal corner of the internet, where nostalgia wears eyeliner and storytelling doesn’t try too hard to be deep (but sometimes accidentally is).
 </div>
 """, unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 # --- 📝 Footer ---
 st.markdown("""
