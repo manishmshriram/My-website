@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="auto",
 )
 
-# --- 🎨 Custom CSS for Aesthetic Vibe ---
+# --- 🎨 Complete CSS Styling ---
 st.markdown("""
     <style>
     body {
@@ -25,12 +25,15 @@ st.markdown("""
         margin-bottom: 1em;
         color: #F9A825;
         text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 0.8s ease-out;
     }
     .subtitle {
         font-size: 1.5em;
         text-align: center;
         margin-bottom: 3em;
         color: #5D4037;
+        animation: fadeInUp 0.8s ease-out 0.2s;
+        animation-fill-mode: backwards;
     }
     .video-box {
         background: #FFF3C7;
@@ -41,132 +44,116 @@ st.markdown("""
         transition: transform 0.3s ease-in-out;
     }
     .video-box:hover {
-        transform: scale(1.05);
+        transform: scale(1.03);
     }
     .story-box {
         background: #FFECB3;
         padding: 1.5em;
         border-radius: 15px;
-        margin-top: 3em;
+        margin: 3em 0;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .story-title {
-        font-size: 2.5em;
-        font-weight: 700;
-        color: #6A1B9A;
-        text-align: center;
-        margin-bottom: 1em;
-    }
-    .story-text {
-        font-size: 1.2em;
-        color: #FF6F00;
-        line-height: 1.8;
-        text-align: justify;
-        max-width: 80%;
-        margin-left: auto;
-        margin-right: auto;
+        animation: fadeInUp 0.8s ease-out;
     }
     .about-me-box {
-        background: #FFEBEE;
-        padding: 2em;
+        padding: 2rem;
+        background: rgba(255, 235, 238, 0.9);
         border-radius: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        margin-top: 3em;
+        margin: 3rem 0;
+        transition: all 0.6s ease;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        animation: fadeInUp 0.8s ease-out;
     }
     .about-me-title {
-        font-size: 2.5em;
-        font-weight: 700;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
         color: #D32F2F;
         text-align: center;
-        margin-bottom: 1em;
     }
     .about-me-text {
-        font-size: 1.2em;
-        color: #4E342E;
+        font-size: 1.1rem;
         line-height: 1.8;
-        text-align: justify;
-        animation: glowing 1.5s ease-in-out infinite;
+        margin: 1rem 0;
+        color: #4E342E;
     }
-    @keyframes glowing {
-        0% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
-        50% { color: #FF5733; text-shadow: 0 0 5px #FF5733, 0 0 10px #FF5733, 0 0 15px #FF5733; }
-        100% { color: #D32F2F; text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000; }
-    }
-    .cta-box {
-        text-align: center;
-        font-size: 1.2em;
-        margin-top: 3em;
-        font-style: italic;
-        color: #9E9D24;
-        font-family: 'Courier New', Courier, monospace;
-    }
-    .cta-box:hover {
-        color: #F57F17;
+    .music-player {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
         cursor: pointer;
+        transition: all 0.3s ease;
     }
-    .transition {
-        animation: fadeIn 2s ease-out;
+    .music-icon {
+        width: 40px;
+        height: 40px;
+        filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+        transition: transform 0.3s ease;
     }
-    @keyframes fadeIn {
-        0% {
+    .music-icon.playing {
+        animation: pulse 1.5s infinite;
+    }
+    @keyframes fadeInUp {
+        from {
             opacity: 0;
+            transform: translateY(20px);
         }
-        100% {
+        to {
             opacity: 1;
+            transform: translateY(0);
         }
     }
-    .footer {
-        font-size: 0.9em;
-        color: #999;
-        text-align: center;
-        margin-top: 3em;
-    }
-    .cta-box {
-        color: #D32F2F;
-        font-style: italic;
-        text-align: center;
-        font-family: 'Courier New', Courier, monospace;
-        font-size: 1.5em;
-    }
-    .cta-box:hover {
-        color: #F57F17;
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
     }
     .final-note {
-        font-size: 1.5em;
-        color: #D32F2F;
         text-align: center;
+        color: #5D4037;
         font-style: italic;
-        cursor: pointer;
-        transition: color 0.3s ease-in-out;
-    }
-    .final-note:hover {
-        color: #FF4081;
+        margin: 2em 0;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- 🎞️ Title ---
-st.markdown("<div class='title'>🎞️ Manish's Aesthetic Edits</div>", unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Soft, minimal edits of your favorite films and music</div>', unsafe_allow_html=True)
-
-# --- 🎶 Audio Play Button ---
-audio_url = "https://raw.githubusercontent.com/manishmshriram/My-website/main/lalaland.mp3"
-
-# Embed audio in a way that works with user interaction
-st.markdown(f'<audio id="bgMusic" loop preload="auto" style="display:none;"><source src="{audio_url}" type="audio/mp3"></audio>', unsafe_allow_html=True)
-
-# Music icon for play and stop (click event triggers play)
-st.markdown("""
-<div style="text-align:center; cursor:pointer;" onclick="var audio = document.getElementById('bgMusic'); 
-if (audio.paused) { audio.play(); } else { audio.pause(); }">
-    <img src="https://img.icons8.com/ios/452/music.png" width="50" height="50"/>
+# --- 🎵 Interactive Music Player ---
+components.html("""
+<div class="music-player" onclick="toggleMusic()">
+    <img id="musicIcon" class="music-icon" src="https://img.icons8.com/fluency/96/music.png"/>
 </div>
-""", unsafe_allow_html=True)
 
-# --- 📺 Display All YouTube Videos (10 Links) ---
+<audio id="backgroundMusic" loop>
+    <source src="https://raw.githubusercontent.com/manishmshriram/My-website/main/lalaland.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let isPlaying = false;
+const audio = document.getElementById('backgroundMusic');
+const icon = document.getElementById('musicIcon');
+
+function toggleMusic() {
+    if (isPlaying) {
+        audio.pause();
+        icon.classList.remove('playing');
+    } else {
+        audio.play().catch(() => {
+            alert('Click anywhere on the page first to enable audio');
+        });
+        icon.classList.add('playing');
+    }
+    isPlaying = !isPlaying;
+}
+</script>
+""", height=0)
+
+# --- 🎞️ Main Content ---
+st.markdown("<div class='title'>🎞️ My Idiosyncratic Anthology: Songs & Scenes</div>", unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Intentional Idiosyncratic Compilation of song and the Scene</div>', unsafe_allow_html=True)
+
+# --- 📺 Video Gallery ---
 video_links = [
+   "https://www.youtube.com/embed/oMDsZA73fJg?si=OtOy4C5yqhVqao6B",
     "https://www.youtube.com/embed/NNHJxvZxyoM?si=kcdUKDzW4Vk9cesv",
-    "https://www.youtube.com/embed/oMDsZA73fJg?si=OtOy4C5yqhVqao6B",
     "https://www.youtube.com/embed/gs80fqMsU6M?si=sLRJacQA3CKUhTvG",
     "https://www.youtube.com/embed/OFvm21z8L-M?si=qrNKyNoF18leLjV1",
     "https://www.youtube.com/embed/o4XQkw0k5To?si=QWF7bE4sSozl5WG6",
@@ -179,50 +166,45 @@ video_links = [
 ]
 
 for link in video_links:
-    st.markdown('<div class="video-box transition">', unsafe_allow_html=True)
-    components.iframe(link, height=315)
-    st.markdown('</div>', unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="video-box">', unsafe_allow_html=True)
+        components.iframe(link, height=315)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-# --- 🔗 Link to YouTube Channel ---
+# --- 🎬 Story Section ---
 st.markdown("""
-<div style='text-align:center; margin-top:2em;' class="transition">
-    🔗 Explore more on my YouTube Channel: <a href="https://www.youtube.com/@manishshriram" target="_blank">Manish Shriram on YouTube</a>
+<div class="story-box">
+    <div class="about-me-title">A Poorly Rescored Oscar-Winning Disney Film</div>
+    <div class="about-me-text">
+        I re-scored Disney's Oscar-winning short <i>Paperman</i> with The Cinematic Orchestra's haunting "Arrival of the Birds", 
+        transforming its romance into an ethereal, bittersweet daydream.
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- 🎬 "Poorly Rescored" Disney Film ---
-st.markdown('<div class="story-box transition">', unsafe_allow_html=True)
-st.markdown('<div class="story-title">A Poorly Rescored Oscar-Winning Disney Film</div>', unsafe_allow_html=True)
+# --- 👤 About Me ---
 st.markdown("""
-<div class="story-text">
-    I've edited the Oscar-winning short *Paperman* and added one of my favorite tracks, "Arrival of the Birds" by The Cinematic Orchestra. Just a small edit to give the film a fresh feel with this beautiful piece of music.
+<div class="about-me-box">
+    <div class="about-me-title">About Me</div>
+    <div class="about-me-text">
+        I spent years watching films, getting lost in music, and skillfully ignoring career trajectories. These edits? 
+        Fragments from a chaotic phase of creating without algorithms, audiences, or "success" in mind.
+    </div>
+    <div class="about-me-text">
+       I Know Most won't watch this - and that's fine. This isn't a portfolio. It's a memory archive. A mood board of late nights 
+        obsessing over frames and feelings, not job titles.
+    </div>
+    <div class="about-me-text">
+        If you're here: welcome to my internet corner. Where nostalgia wears eyeliner and storytelling isn't trying to be deep 
+        (but sometimes accidentally is).
+    </div>
 </div>
 """, unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
 
-# --- 💭 Final Note ---
-st.markdown('<div class="final-note">', unsafe_allow_html=True)
+# --- 🌌 Final Note ---
 st.markdown("""
-    Found this corner of the internet? You’ll scroll back to Instagram, overthink, and probably end up here again. My presence lives here — somewhere between the lines.
-""", unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
-
-# --- 💡 About Me Section ---
-st.markdown('<div class="about-me-box transition">', unsafe_allow_html=True)
-st.markdown('<div class="about-me-title glowing-text">About Me</div>', unsafe_allow_html=True)
-st.markdown("""
-<div class="about-me-text glowing-text">
-    I spent years watching films, getting lost in music, and skillfully ignoring any form of career trajectory. These edits? They're fragments from that beautifully chaotic phase where I made stuff without thinking about algorithms, audiences, or "success."
+<div class="final-note">
+    ◌◌◌ Found this corner? You'll scroll away, overthink, and likely return. <br>
+    My presence lingers here - somewhere between the frames and frequencies. ◌◌◌
 </div>
 """, unsafe_allow_html=True)
-st.markdown("""
-<div class="about-me-text glowing-text">
-    I know most people won’t watch this—and that’s fine. This isn’t some grand portfolio. It’s a memory archive. A mood board of my mind. An echo of late nights spent obsessing over frames and feelings instead of job titles.
-</div>
-""", unsafe_allow_html=True)
-st.markdown("""
-<div class="about-me-text glowing-text">
-    If you’re here, watching—cool. You’re part of this little accidental time capsule now. Welcome to my personal corner of the internet, where nostalgia wears eyeliner and storytelling doesn’t try too hard to be deep (but sometimes accidentally is).
-</div>
-""", unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
