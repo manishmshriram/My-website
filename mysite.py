@@ -1,7 +1,3 @@
-from pathlib import Path
-
-# Final updated Streamlit app code with user's requested structure and style
-final_app_code = """
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -13,7 +9,7 @@ st.set_page_config(
 )
 
 # --- Dark Theme Styling ---
-st.markdown(\"""
+st.markdown("""
     <style>
     body {
         background-color: #0f0f0f;
@@ -79,7 +75,7 @@ st.markdown(\"""
         transform: scale(1.2);
     }
     </style>
-\""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # --- 🎬 Edits Section ---
 st.markdown("<div class='title'>🎞️ My Idiosyncratic Anthology</div>", unsafe_allow_html=True)
@@ -105,7 +101,7 @@ for link in video_links:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Rescored video
-st.markdown(\"""
+st.markdown("""
 <div class="section-box">
     <div class="section-title">🎬 A Poorly Rescored Oscar-Winning Disney Film</div>
     <div class="section-text">
@@ -117,10 +113,10 @@ st.markdown(\"""
         frameborder="0" allowfullscreen></iframe>
     </div>
 </div>
-\""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # --- 📖 Short Story ---
-st.markdown(\"""
+st.markdown("""
 <div class='section-box'>
     <div class='section-title'>📖 Ek Sauvi Raat (The 100th Night)</div>
     <div class='section-text'>
@@ -133,10 +129,10 @@ st.markdown(\"""
         📝 Read the full story on my <a href="https://manishshriram.art.blog/" target="_blank" style="color:#61afef;">blog</a>.
     </div>
 </div>
-\""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # --- 👤 About Me ---
-st.markdown(\"""
+st.markdown("""
 <div class="section-box">
     <div class="section-title">👤 About Me</div>
     <div class="about-me-text">
@@ -154,21 +150,13 @@ st.markdown(\"""
     ◌◌◌ You’ll scroll away, overthink, and likely return.<br>
     My presence lingers here — somewhere between the frames and frequencies. ◌◌◌
 </div>
-\""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # --- 📸 Instagram Icon ---
-st.markdown(\"""
+st.markdown("""
 <div class="insta-icon">
     <a href="https://www.instagram.com/yourprofilelink" target="_blank">
         <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram"/>
     </a>
 </div>
-\""", unsafe_allow_html=True)
-"""
-
-# Save to file
-output_path = Path("/mnt/data/mysite_updated.py")
-output_path.write_text(final_app_code)
-
-output_path.name  # show filename for download link
-
+""", unsafe_allow_html=True)
