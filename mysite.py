@@ -29,39 +29,50 @@ st.markdown("""
         color: #abb2bf;
         margin-bottom: 2em;
     }
-    .edit-link {
-        font-size: 1.2em;
-        color: #61afef;
-        cursor: pointer;
-        text-align: center;
-        margin: 0.5em 0;
-        transition: color 0.3s ease;
-    }
-    .edit-link:hover {
-        color: #E06C75;
-    }
-    .popup {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.85);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-    }
-    .popup-content {
+    .video-box {
         background: #1e1e1e;
-        padding: 1em;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        padding: 1.5em;
+        border-radius: 15px;
+        margin-bottom: 2em;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .section-box {
+        background: #1a1a1a;
+        padding: 2em;
+        border-radius: 15px;
+        margin: 2em 0;
+    }
+    .section-title {
+        font-size: 1.6em;
+        color: #E06C75;
+        text-align: center;
+        margin-bottom: 1em;
+        font-weight: bold;
+    }
+    .section-text, .about-me-text {
+        font-size: 1.1em;
+        line-height: 1.6;
+        color: #c0c0c0;
         text-align: center;
     }
-    .close-btn {
-        color: #fff;
-        font-size: 1.2em;
-        margin-top: 0.5em;
-        cursor: pointer;
+    .final-note {
+        text-align: center;
+        color: #5c6370;
+        font-style: italic;
+        margin: 3em 0;
+    }
+    .insta-icon {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .insta-icon a img {
+        width: 40px;
+        height: 40px;
+        filter: brightness(0) invert(1);
+        transition: transform 0.3s ease;
+    }
+    .insta-icon a img:hover {
+        transform: scale(1.2);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -70,39 +81,39 @@ st.markdown("""
 st.markdown("<div class='title'>🎞️ My Idiosyncratic Anthology</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>Cinematic music meets unforgettable frames</div>", unsafe_allow_html=True)
 
-video_dict = {
-    "Moonlight Montage": "https://www.youtube.com/embed/oMDsZA73fJg?si=OtOy4C5yqhVqao6B",
-    "Whispers in the Metro": "https://www.youtube.com/embed/NNHJxvZxyoM?si=kcdUKDzW4Vk9cesv",
-    "The Silent Waltz": "https://www.youtube.com/embed/gs80fqMsU6M?si=sLRJacQA3CKUhTvG",
-    "Fragments of Summer": "https://www.youtube.com/embed/OFvm21z8L-M?si=qrNKyNoF18leLjV1"
-}
+video_links = [
+    "https://www.youtube.com/embed/oMDsZA73fJg?si=OtOy4C5yqhVqao6B",
+    "https://www.youtube.com/embed/NNHJxvZxyoM?si=kcdUKDzW4Vk9cesv",
+    "https://www.youtube.com/embed/gs80fqMsU6M?si=sLRJacQA3CKUhTvG",
+    "https://www.youtube.com/embed/OFvm21z8L-M?si=qrNKyNoF18leLjV1",
+    "https://www.youtube.com/embed/o4XQkw0k5To?si=QWF7bE4sSozl5WG6",
+    "https://www.youtube.com/embed/ZUhU4izZbi0?si=BIe30AuRAc5Xg2rL",
+    "https://www.youtube.com/embed/wDzCeqzgmoA?si=PU97w3lVOss9w9sO",
+    "https://www.youtube.com/embed/PPOYOUFk4Hw?si=RlBSKyqUT7Ud130L",
+    "https://www.youtube.com/embed/WAsDEw1HKG4?si=TquTCxRYWOuArz7b",
+    "https://www.youtube.com/embed/y6JbWgHx7po?si=POQlGXMWfEJUJPR3",
+    "https://www.youtube.com/embed/aNFGiVwt4uE?si=GvQ5ro2-0tZSIs51"
+]
 
-# --- State to track popup ---
-if "popup" not in st.session_state:
-    st.session_state.popup = None
+for link in video_links:
+    st.markdown('<div class="video-box">', unsafe_allow_html=True)
+    components.iframe(link, height=315)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-for name, link in video_dict.items():
-    if st.button(name, key=name):
-        st.session_state.popup = link
-
-# --- Show popup if active ---
-if st.session_state.popup:
-    popup_html = f"""
-    <div class="popup">
-        <div class="popup-content">
-            <iframe width="560" height="315" src="{st.session_state.popup}" frameborder="0" allowfullscreen></iframe>
-            <div class="close-btn" onclick="window.parent.postMessage('close','*')">✖ Close</div>
-        </div>
+# Rescored video
+st.markdown("""
+<div class="section-box">
+    <div class="section-title">🎬 A Poorly Rescored Oscar-Winning Disney Film</div>
+    <div class="section-text">
+        I re-scored Disney's Oscar-winning short <i>Paperman</i> with The Cinematic Orchestra’s haunting 
+        <b>“Arrival of the Birds”</b>, transforming its romance into an ethereal, bittersweet daydream.
+    </div><br>
+    <div style='text-align: center;'>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/EI__XUxw8j8?si=PWMbJK7A6a1_ZvoC" 
+        frameborder="0" allowfullscreen></iframe>
     </div>
-    <script>
-    window.addEventListener('message', (e) => {{
-        if (e.data === 'close') {{
-            window.location.reload();
-        }}
-    }});
-    </script>
-    """
-    components.html(popup_html, height=600)
+</div>
+""", unsafe_allow_html=True)
 
 # --- 📖 Short Story ---
 st.markdown("""
@@ -111,6 +122,7 @@ st.markdown("""
     <div class='section-text'>
         Ek raat… ek talaab… ek main-da, jise sapne sirf chand ke dikhte the. <br><br>
         This is a tale of a poetic frog, a mysterious she-frog, a soldier, a tortoise, and the 100th night that changed everything.
+        It's absurd, emotional, and nostalgic — just like life.
     </div>
     <br>
     <div class='section-text'>
@@ -124,7 +136,27 @@ st.markdown("""
 <div class="section-box">
     <div class="section-title">👤 About Me</div>
     <div class="about-me-text">
-        These edits aren’t a portfolio; they’re stitched memories — nostalgia in motion.
+        I’ve spent years getting lost in frames, melodies, and midnight edits. These clips aren’t for jobs, clicks, or clout — 
+        they’re stitched memories, felt deeply and shared freely.
     </div>
+    <div class="about-me-text">
+        I know most won’t watch — and that’s okay. This isn’t a portfolio; it’s a private theater with an open door.
+    </div>
+    <div class="about-me-text">
+        Welcome to my corner of the internet — a place where nostalgia wears eyeliner and storytelling forgets to explain itself.
+    </div>
+</div>
+<div class="final-note">
+    ◌◌◌ You’ll scroll away, overthink, and likely return.<br>
+    My presence lingers here — somewhere between the frames and frequencies. ◌◌◌
+</div>
+""", unsafe_allow_html=True)
+
+# --- 📸 Instagram Icon ---
+st.markdown("""
+<div class="insta-icon">
+    <a href="https://www.instagram.com/yourprofilelink" target="_blank">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram"/>
+    </a>
 </div>
 """, unsafe_allow_html=True)
