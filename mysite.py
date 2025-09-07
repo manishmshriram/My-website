@@ -1,457 +1,340 @@
+# Save as: app.py  (or replace your existing Streamlit app file)
 import streamlit as st
 import streamlit.components.v1 as components
-import base64, os, random, re
+import os, random, re, base64
 
-# ─────────────────────────────────────────────────────────────
-# Page Setup
-# ─────────────────────────────────────────────────────────────
-st.set_page_config(
-    page_title="Manish’s Aesthetic Edits",
-    page_icon="🎬",
-    layout="centered",
-)
+# ---------- PAGE SETUP ----------
+st.set_page_config(page_title="Manish's Aesthetic Edits", page_icon="🎬", layout="centered")
 
-# ─────────────────────────────────────────────────────────────
-# Font: Try to load local AMS Vasudeva Regular (for Marathi hover)
-# Place file at: assets/fonts/AMS-Vasudeva-Regular.ttf
-# If not found, we fall back to Noto Sans Devanagari via Google Fonts.
-# ─────────────────────────────────────────────────────────────
-vasudeva_css = ""
-font_path = "assets/fonts/AMS-Vasudeva-Regular.ttf"
-if os.path.exists(font_path):
-    with open(font_path, "rb") as f:
-        b64 = base64.b64encode(f.read()).decode()
-    vasudeva_css = f"""
-    @font-face {{
-        font-family: 'AMS Vasudeva';
-        src: url(data:font/ttf;base64,{b64}) format('truetype');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-    }}
-    """
-google_font_link = """
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
-"""
+# ---------- ASSETS & VIDEOS ----------
+# Put your videos here (embed URLs). The hero will autoplay muted for nicer UX.
+VIDEO_EMBEDS = [
+    "https://www.youtube.com/embed/oMDsZA73fJg?rel=0",
+    "https://www.youtube.com/embed/NNHJxvZxyoM?rel=0",
+    "https://www.youtube.com/embed/gs80fqMsU6M?rel=0",
+    "https://www.youtube.com/embed/OFvm21z8L-M?rel=0",
+    "https://www.youtube.com/embed/o4XQkw0k5To?rel=0",
+    "https://www.youtube.com/embed/ZUhU4izZbi0?rel=0",
+    "https://www.youtube.com/embed/wDzCeqzgmoA?rel=0",
+    "https://www.youtube.com/embed/PPOYOUFk4Hw?rel=0",
+    "https://www.youtube.com/embed/WAsDEw1HKG4?rel=0",
+    "https://www.youtube.com/embed/y6JbWgHx7po?rel=0",
+    "https://www.youtube.com/embed/aNFGiVwt4uE?rel=0",
+    # Paperman rescored (kept in list)
+    "https://www.youtube.com/embed/EI__XUxw8j8?rel=0",
+]
 
-# ─────────────────────────────────────────────────────────────
-# Global Styles (Dark, minimal-cinematic)
-# ─────────────────────────────────────────────────────────────
+# Optional friendly titles (same length as VIDEO_EMBEDS)
+VIDEO_TITLES = [
+    "Edit 1",
+    "Edit 2",
+    "Edit 3",
+    "Edit 4",
+    "Edit 5",
+    "Edit 6",
+    "Edit 7",
+    "Edit 8",
+    "Edit 9",
+    "Edit 10",
+    "Edit 11",
+    "Paperman — Rescored",
+]
+
+# ---------- FONT: optional AMS Vasudeva ----------
+# If you want the Marathi Devnagari font effect using AMS Vasudeva:
+# Put the TTF file at: assets/fonts/AMS-Vasudeva-Regular.ttf in your repo.
+# The code below will embed it only if it exists (safe).
+def generate_font_face_css():
+    font_path = "assets/fonts/AMS-Vasudeva-Regular.ttf"
+    if os.path.exists(font_path):
+        try:
+            with open(font_path, "rb") as f:
+                b64 = base64.b64encode(f.read()).decode()
+            return f"""
+            @font-face {{
+                font-family: 'AMS Vasudeva';
+                src: url(data:font/ttf;base64,{b64}) format('truetype');
+                font-weight: 400;
+                font-style: normal;
+                font-display: swap;
+            }}
+            """
+        except Exception:
+            return ""
+    return ""
+
+font_face_css = generate_font_face_css()
+
+# ---------- CSS (clean, cinematic) ----------
 st.markdown(
-    google_font_link
-    + f"""
+    f"""
 <style>
+{font_face_css}
+
+/* Basic colors */
 :root {{
-  --bg: #0e0e0f;
-  --panel: #171718;
-  --soft: #1f1f21;
-  --text: #e9e9ea;
+  --bg: #0f0f10;
+  --card: #121214;
   --muted: #bdbfc4;
-  --brand: #E5C07B; /* warm gold */
-  --accent: #61afef; /* soft blue */
-  --rose: #E06C75;  /* rose title */
-  --radius: 18px;
-  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --accent: #E5C07B;
+  --accent2: #61afef;
+  --rose: #E06C75;
+  --radius: 14px;
 }}
 
-html, body, [data-testid="stAppViewContainer"] {{
-  background: var(--bg) !important;
-  color: var(--text);
-  font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Noto Sans Devanagari', sans-serif;
+/* Page base */
+body, .stApp {{
+  background: linear-gradient(180deg, var(--bg), #0b0b0c);
+  color: #e9e9ea;
+  font-family: 'Poppins', 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
 }}
 
-{vasudeva_css}
-
-/* Wrapper panels */
-.panel {{
-  background: linear-gradient(180deg, var(--panel), var(--soft));
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(255,255,255,0.05);
-}}
-
-/* Title / Subtitle */
-.header-wrap {{
+/* Header */
+.header {{
   text-align: center;
-  margin-top: .5rem;
-  margin-bottom: 1rem;
+  padding-top: 18px;
+  margin-bottom: 6px;
 }}
-
 .site-name {{
-  display: inline-block;
-  font-size: clamp(28px, 5vw, 46px);
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--brand);
-  padding: .25rem .75rem;
-  border-radius: 12px;
-  background: rgba(229,192,123,0.10);
-  transition: transform .25s ease, background .25s ease;
-  cursor: default;
+  display:inline-block;
+  font-size: clamp(26px, 4.2vw, 42px);
+  font-weight:700;
+  color: var(--accent);
+  padding: .25rem .6rem;
+  border-radius: 10px;
+  background: rgba(229,192,123,0.06);
 }}
-
-.site-name:hover {{
-  transform: translateY(-1px);
-  background: rgba(229,192,123,0.18);
-}}
-
-.name-hover .dev {{ display: none; }}
-.name-hover .dev,
-.name-hover .eng {{
-  transition: opacity .2s ease;
-  line-height: 1;
-}}
-/* On hover, swap English to Marathi */
-.name-hover:hover .eng {{ display: none; }}
-.name-hover:hover .dev {{
-  display: inline;
-  font-family: 'AMS Vasudeva', 'Noto Sans Devanagari', sans-serif;
-}}
-
-.subtitle {{
+.site-sub {{
   color: var(--muted);
-  margin-top: .25rem;
-  margin-bottom: 1.2rem;
-  font-size: clamp(14px, 2.2vw, 18px);
+  margin-top:6px;
+  font-size: 15px;
 }}
 
-/* Section titles */
-.section-title {{
-  text-align: center;
-  font-weight: 700;
-  color: var(--rose);
-  font-size: clamp(20px, 3vw, 28px);
-  margin: .25rem 0 1rem;
+/* hover name swap */
+.name-hover .marathi {{ display:none; }}
+.name-hover:hover .english {{ display:none; }}
+.name-hover:hover .marathi {{
+  display:inline-block;
+  font-family: 'AMS Vasudeva', 'Noto Sans Devanagari', serif;
 }}
 
-/* Hero player */
-.hero {{
-  overflow: hidden;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(255,255,255,0.05);
-  background: #111;
+/* Hero */
+.hero-wrap {{
+  width:100%;
+  border-radius: 16px;
+  overflow:hidden;
+  margin: 12px 0 18px;
+  box-shadow: 0 18px 36px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
 }}
-
-.hero-controls {{
-  display: flex; gap: .5rem; justify-content: center; align-items: center;
-  margin: .75rem 0 0;
+.controls {{
+  display:flex; gap:8px; justify-content:center; align-items:center; margin-top:8px;
 }}
 .btn {{
-  background: #222;
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--text);
-  padding: .6rem .9rem;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: transform .12s ease, background .25s ease, border .25s ease;
+  background:#1a1a1b; padding:.5rem .8rem; border-radius:10px; border:1px solid rgba(255,255,255,0.06);
+  cursor:pointer; color: #eaeaea;
 }}
-.btn:hover {{
-  transform: translateY(-1px);
-  background: #2a2a2a;
-  border-color: rgba(255,255,255,0.18);
-}}
-.badge {{
-  font-size: .85rem; color: var(--muted);
-}}
+.btn:hover {{ transform: translateY(-2px); }}
 
-/* Grid of edits */
+/* Grid */
 .grid {{
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }}
 @media (max-width: 900px) {{
-  .grid {{ grid-template-columns: repeat(6, 1fr); }}
+  .grid {{ grid-template-columns: repeat(2, 1fr); }}
 }}
-@media (max-width: 600px) {{
-  .grid {{ grid-template-columns: repeat(4, 1fr); }}
+@media (max-width: 560px) {{
+  .grid {{ grid-template-columns: repeat(1, 1fr); }}
 }}
 .card {{
-  grid-column: span 4;
-  background: #131314;
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  border: 1px solid rgba(255,255,255,0.06);
-  transition: transform .25s ease, border .25s ease, box-shadow .25s ease, filter .25s ease;
+  background: var(--card);
+  border-radius: 12px;
+  overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.04);
 }}
-.card:hover {{
-  transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.14);
-  box-shadow: 0 16px 36px rgba(0,0,0,0.45);
-  filter: brightness(1.02);
-}}
-.thumb-wrap {{
-  position: relative; aspect-ratio: 16/9; background: #0c0c0c;
-}}
-.thumb {{
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}}
-.overlay {{
-  position: absolute; inset: 0; display:flex; align-items:end; justify-content:space-between;
-  padding: .65rem .75rem; background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.65) 100%);
-  color: #fff;
-}}
-.title-small {{
-  font-size: .95rem; font-weight: 600; letter-spacing:.2px;
-}}
-.play {{
-  background: rgba(255,255,255,0.08);
-  padding: .35rem .6rem; border-radius: 10px; font-size: .85rem;
-  border: 1px solid rgba(255,255,255,0.18);
+.thumb{{ width:100%; height:160px; object-fit:cover; display:block; }}
+.card .meta {{ padding:.6rem .75rem; font-size:14px; color:var(--muted); display:flex; justify-content:space-between; align-items:center; }}
+
+/* section title */
+.section-title {{ text-align:center; color:var(--rose); font-weight:700; margin:8px 0; font-size:18px; }}
+
+/* CTA button */
+.cta {{
+  display:inline-block; padding:.55rem .9rem; border-radius:10px; margin-top:8px;
+  background: linear-gradient(90deg, rgba(97,175,239,0.12), rgba(229,192,123,0.06));
+  border:1px solid rgba(255,255,255,0.04); color:#dff0ff; text-decoration:none;
 }}
 
-/* Sections & Footer */
-.section-box {{ padding: 1.25rem; }}
-.section-text {{
-  text-align: center; color: var(--muted); font-size: 1.05rem; line-height: 1.65;
-}}
-.link-btn {{
-  display:inline-block; margin-top: .8rem;
-  background: rgba(97,175,239,0.15); border:1px solid rgba(97,175,239,0.35);
-  padding:.65rem .95rem; border-radius: 12px; color: #cfe7ff; text-decoration: none;
-  transition: transform .15s ease, background .25s ease, border .25s ease;
-}}
-.link-btn:hover {{ transform: translateY(-1px); background: rgba(97,175,239,0.22); }}
-
-.insta-icon {{ text-align:center; margin-top: .8rem; }}
-.insta-icon a img {{
-  width: 44px; height: 44px; filter: brightness(0) invert(1);
-  transition: transform .25s ease;
-}}
-.insta-icon a img:hover {{ transform: scale(1.12); }}
-
+/* final note */
 .final-note {{
-  text-align: center; color: #7b7f86; font-style: italic; margin: 2rem 0 .5rem;
+  text-align:center; color:#7b7f86; font-style:italic; margin: 22px 0;
 }}
-hr.soft {{ border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.25rem 0; }}
 </style>
 """,
     unsafe_allow_html=True,
 )
 
-# ─────────────────────────────────────────────────────────────
-# Data: All your edits here (moved the "Poorly Rescored" inside)
-# ─────────────────────────────────────────────────────────────
-# Use your existing list + the rescored video together:
-video_links = [
-    "https://www.youtube.com/embed/oMDsZA73fJg?si=OtOy4C5yqhVqao6B",
-    "https://www.youtube.com/embed/NNHJxvZxyoM?si=kcdUKDzW4Vk9cesv",
-    "https://www.youtube.com/embed/gs80fqMsU6M?si=sLRJacQA3CKUhTvG",
-    "https://www.youtube.com/embed/OFvm21z8L-M?si=qrNKyNoF18leLjV1",
-    "https://www.youtube.com/embed/o4XQkw0k5To?si=QWF7bE4sSozl5WG6",
-    "https://www.youtube.com/embed/ZUhU4izZbi0?si=BIe30AuRAc5Xg2rL",
-    "https://www.youtube.com/embed/wDzCeqzgmoA?si=PU97w3lVOss9w9sO",
-    "https://www.youtube.com/embed/PPOYOUFk4Hw?si=RlBSKyqUT7Ud130L",
-    "https://www.youtube.com/embed/WAsDEw1HKG4?si=TquTCxRYWOuArz7b",
-    "https://www.youtube.com/embed/y6JbWgHx7po?si=POQlGXMWfEJUJPR3",
-    "https://www.youtube.com/embed/aNFGiVwt4uE?si=GvQ5ro2-0tZSIs51",
-    # Rescored Disney short (Paperman x Arrival of the Birds)
-    "https://www.youtube.com/embed/EI__XUxw8j8?si=PWMbJK7A6a1_ZvoC",
-]
-
-# Optional: display-friendly titles from IDs
-def extract_youtube_id(embed_url: str) -> str:
-    # works for https://www.youtube.com/embed/<ID>?query...
-    m = re.search(r"/embed/([\\w-]+)", embed_url)
+# ---------- HELPER FUNCTIONS ----------
+def yt_id_from_embed(url):
+    # expects /embed/<id>
+    m = re.search(r"/embed/([\\w-]+)", url)
     return m.group(1) if m else ""
 
-def youtube_thumb(embed_url: str) -> str:
-    vid = extract_youtube_id(embed_url)
+def thumb_for(embed):
+    vid = yt_id_from_embed(embed)
     return f"https://img.youtube.com/vi/{vid}/hqdefault.jpg" if vid else ""
 
-# Shuffle behavior on first load
+# Initialize session state
 if "playlist" not in st.session_state:
-    st.session_state.playlist = video_links.copy()
+    st.session_state.playlist = VIDEO_EMBEDS.copy()
     random.shuffle(st.session_state.playlist)
-
 if "current_idx" not in st.session_state:
     st.session_state.current_idx = 0
 
-def set_current_from_index(i: int):
-    st.session_state.current_idx = i
-
-def shuffle_now():
-    random.shuffle(st.session_state.playlist)
-    st.session_state.current_idx = 0
-
-def render_player(url: str, autoplay: bool = False, height: int = 420):
-    # Add autoplay + mute for a slick hero start (browser blocks sound, so mute=1)
-    auto = "&autoplay=1&mute=1&playsinline=1" if autoplay else ""
-    iframe = f'''
-    <div class="hero">
-      <iframe
-        src="{url}{auto}"
-        width="100%" height="{height}" frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        style="display:block;border-radius:16px"
-      ></iframe>
-    </div>
-    '''
-    st.markdown(iframe, unsafe_allow_html=True)
-
-# ─────────────────────────────────────────────────────────────
-# HEADER with Hover Name (English → Marathi on hover)
-# ─────────────────────────────────────────────────────────────
+# ---------- HEADER ----------
 st.markdown(
     """
-<div class="header-wrap">
-  <div class="site-name name-hover">
-    <span class="eng">Manish Shriam</span>
-    <span class="dev">मनीष श्रीराम</span>
-  </div>
-  <div class="subtitle">Cinematic music meets unforgettable frames</div>
-</div>
-""",
+    <div class="header">
+      <div class="site-name name-hover">
+        <span class="english">Manish Shriam</span>
+        <span class="marathi">मनीष श्रीराम</span>
+      </div>
+      <div class="site-sub">Cinematic music ⋅ midnight edits ⋅ short stories</div>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
-# ─────────────────────────────────────────────────────────────
-# 1) 🎬 Amateur Edits (Featured player + Grid)
-# ─────────────────────────────────────────────────────────────
+# ---------- AMATEUR EDITS: HERO ----------
 st.markdown('<div class="section-title">🎬 Amateur Edits</div>', unsafe_allow_html=True)
 
-current_url = st.session_state.playlist[st.session_state.current_idx]
-render_player(current_url, autoplay=True, height=460)
-
-st.markdown(
-    """
-<div class="hero-controls">
-  <span class="badge">Now Playing</span>
-  <button class="btn" onclick="window.location.reload()">⟲ Refresh</button>
-</div>
-""",
-    unsafe_allow_html=True,
-)
-
-# Shuffle button (server-side)
-colA, colB, colC = st.columns([1,1,1])
-with colB:
-    if st.button("🔀 Shuffle Playlist", use_container_width=True):
-        shuffle_now()
-
-# Grid of all edits with hover + play
-st.markdown('<div class="section-box panel">', unsafe_allow_html=True)
-st.markdown('<div class="grid">', unsafe_allow_html=True)
-
-for i, url in enumerate(st.session_state.playlist):
-    thumb = youtube_thumb(url)
-    card_html = f"""
-    <div class="card">
-      <a href="#" onclick="fetch('/?setvid={i}').then(()=>window.location.reload()); return false;">
-        <div class="thumb-wrap">
-          <img class="thumb" src="{thumb}" alt="Edit {i+1}" />
-          <div class="overlay">
-            <div class="title-small">Edit {i+1}</div>
-            <div class="play">Play ▶</div>
-          </div>
-        </div>
-      </a>
+def hero_iframe(embed_url, autoplay=True, height=480):
+    extra = "&autoplay=1&mute=1&playsinline=1" if autoplay else ""
+    return f"""
+    <div class="hero-wrap">
+      <iframe width="100%" height="{height}" src="{embed_url}{extra}" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
     </div>
     """
-    st.markdown(card_html, unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)  # .grid
-st.markdown('</div>', unsafe_allow_html=True)  # .section-box
+current = st.session_state.playlist[st.session_state.current_idx]
+st.markdown(hero_iframe(current, autoplay=True), unsafe_allow_html=True)
 
-# Handle query-triggered selection (from thumbnail click)
-# NOTE: Streamlit doesn't expose the raw querystring easily here;
-# the simple trick above reloads; use a hidden input via JS fetch won't reach Python.
-# So we provide a second way: small selectbox for current video.
-# (Keeps UX smooth; thumbnails refresh approach is still visually effective.)
-with st.expander("Change Now Playing (quick picker)", expanded=False):
-    selected = st.selectbox(
-        "Pick an edit to play:",
-        options=[f"Edit {i+1}" for i in range(len(st.session_state.playlist))],
-        index=st.session_state.current_idx,
-    )
-    if st.button("Play Selected"):
-        st.session_state.current_idx = int(selected.split()[-1]) - 1
+# Controls
+cols = st.columns([1,1,1])
+with cols[0]:
+    if st.button("◀ Previous", key="prev"):
+        st.session_state.current_idx = (st.session_state.current_idx - 1) % len(st.session_state.playlist)
+        st.experimental_rerun()
+with cols[1]:
+    if st.button("🔀 Shuffle", key="shuffle"):
+        random.shuffle(st.session_state.playlist)
+        st.session_state.current_idx = 0
+        st.experimental_rerun()
+with cols[2]:
+    if st.button("Next ▶", key="next"):
+        st.session_state.current_idx = (st.session_state.current_idx + 1) % len(st.session_state.playlist)
         st.experimental_rerun()
 
-st.markdown('<hr class="soft">', unsafe_allow_html=True)
+st.markdown("<br/>", unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────────────────────
-# 2) 📖 Short Story (nudges to click through)
-# ─────────────────────────────────────────────────────────────
+# ---------- GRID OF THUMBNAILS ----------
+st.markdown('<div class="section-title">All Edits</div>', unsafe_allow_html=True)
+# Display grid using columns to control responsive layout
+num_cols = 3
+thumbs = st.session_state.playlist
+# map embed -> title if provided
+embed_to_title = {VIDEO_EMBEDS[i]: VIDEO_TITLES[i] for i in range(min(len(VIDEO_EMBEDS), len(VIDEO_TITLES)))}
+
+rows = []
+for i in range(0, len(thumbs), num_cols):
+    row = st.columns(num_cols)
+    for j, col in enumerate(row):
+        idx = i + j
+        if idx >= len(thumbs):
+            col.write("")
+            continue
+        embed = thumbs[idx]
+        thumb = thumb_for(embed)
+        title = embed_to_title.get(embed, f"Edit {idx+1}")
+        with col:
+            st.markdown(
+                f"""
+                <div class="card">
+                  <img class="thumb" src="{thumb}" alt="{title}">
+                  <div class="meta">
+                    <div style="font-weight:600">{title}</div>
+                    <form><button class="btn" name="play_{idx}" type="submit">Play ▶</button></form>
+                  </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            # Each thumbnail gets a server-side button below so it works robustly
+            if st.button(f"Play {idx+1}", key=f"play_btn_{idx}"):
+                st.session_state.current_idx = idx
+                st.experimental_rerun()
+
+st.markdown("<hr/>", unsafe_allow_html=True)
+
+# ---------- SHORT STORY ----------
 st.markdown('<div class="section-title">📖 Short Story</div>', unsafe_allow_html=True)
 st.markdown(
     """
-<div class="panel section-box">
-  <div class="section-text">
-    <em>Ek Sauvi Raat (The 100th Night)</em> — ek talaab, ek kawita-kun, ek gूढ she-frog,
-    ek sipahi, ek kachhua — aur woh 100वी raat jisne sab kuch badal diya.
-    Absurd, komal, aur nostalgia se bheega hua — bilkul zindagi ki tarah.
-  </div>
-  <div class="section-text">
-    If you like cinematic monologues with a heartbeat, read the full piece.
-  </div>
-  <div style="text-align:center;">
-    <a class="link-btn" href="https://manishshriram.art.blog/" target="_blank" rel="noopener">
-      Read the full story on my blog ↗
-    </a>
-  </div>
-</div>
-""",
+    <div style="text-align:center; max-width:720px; margin-left:auto; margin-right:auto;">
+      <p style="color:#c8cbd0; font-size:16px; line-height:1.7;">
+        <strong>Ek Sauvi Raat (The 100th Night)</strong> — a small, strange, tender story of a frog, a soldier, a mysterious she-frog, and a night that quietly rearranged everything.
+      </p>
+      <p style="color:#bdbfc4; font-size:15px;">Click through to read the full piece — if you like cinematic melancholy, you'll stay.</p>
+      <a class="cta" href="https://manishshriram.art.blog/" target="_blank" rel="noopener">Read the full story on my blog ↗</a>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
-st.markdown('<hr class="soft">', unsafe_allow_html=True)
+st.markdown("<hr/>", unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────────────────────
-# 3) 👤 About Me (माझ्या बद्दल)
-# ─────────────────────────────────────────────────────────────
+# ---------- ABOUT ME (माझ्या बद्दल) ----------
 st.markdown('<div class="section-title">👤 माझ्या बद्दल</div>', unsafe_allow_html=True)
 st.markdown(
     """
-<div class="panel section-box">
-  <div class="section-text">
-    I’ve spent years getting lost in frames, melodies, and midnight edits. These clips aren’t for jobs, clicks, or clout —
-    they’re stitched memories, felt deeply and shared freely.
-  </div>
-  <div class="section-text">
-    I know most won’t watch — and that’s okay. This isn’t a portfolio; it’s a private theater with an open door.
-  </div>
-  <div class="section-text">
-    Welcome to my corner of the internet — a place where nostalgia wears eyeliner and storytelling forgets to explain itself.
-  </div>
-</div>
-""",
+    <div style="max-width:860px; margin-left:auto; margin-right:auto; background:#0f0f10; padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
+      <p style="color:#c9ccd0; font-size:15px; line-height:1.7;">
+        I’ve spent years getting lost in frames, melodies, and midnight edits. These clips aren’t for jobs, clicks, or clout — they are stitched memories,
+        quietly crafted and shared. If something here feels familiar, it's because nostalgia likes to wear eyeliner.
+      </p>
+      <p style="color:#bdbfc4; font-size:14px; margin-top:6px;">
+        This corner is private theater with an open door. Sit, watch, leave — return whenever.
+      </p>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
-st.markdown('<hr class="soft">', unsafe_allow_html=True)
+st.markdown("<hr/>", unsafe_allow_html=True)
 
-# ─────────────────────────────────────────────────────────────
-# 4) 📸 Instagram
-# ─────────────────────────────────────────────────────────────
+# ---------- INSTAGRAM ----------
 st.markdown('<div class="section-title">📸 Instagram</div>', unsafe_allow_html=True)
 st.markdown(
     """
-<div class="panel section-box">
-  <div class="insta-icon">
-    <a href="https://www.instagram.com/yourprofilelink" target="_blank" rel="noopener">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram"/>
-    </a>
-  </div>
-</div>
-""",
+    <div style="text-align:center;">
+      <a href="https://www.instagram.com/yourprofilelink" target="_blank" rel="noopener">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" style="width:46px;height:46px;filter:brightness(0) invert(1);">
+      </a>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
-# ─────────────────────────────────────────────────────────────
-# Footer note (appears at end of the page)
-# ─────────────────────────────────────────────────────────────
+# ---------- FINAL NOTE ----------
 st.markdown(
     """
-<div class="final-note">
-  ◌◌◌ You’ll scroll away, overthink, and likely return.<br>
-  My presence lingers here — somewhere between the frames and frequencies. ◌◌◌
-</div>
-""",
+    <div class="final-note">
+      ◌◌◌ You’ll scroll away, overthink, and likely return.<br>
+      My presence lingers here — somewhere between the frames and frequencies. ◌◌◌
+    </div>
+    """,
     unsafe_allow_html=True,
 )
