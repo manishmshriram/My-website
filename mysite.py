@@ -1,177 +1,163 @@
 import streamlit as st
 
-# --- PAGE SETUP ---
-st.set_page_config(
-    page_title="Manish's Site",
-    page_icon="🎬",
-    layout="wide"
-)
+# --- PAGE CONFIG ---
+st.set_page_config(page_title="Manish Shriram", page_icon="🎬", layout="wide")
 
-# --- BACKGROUND VIDEO & STYLE ---
+# --- CSS STYLING ---
 st.markdown("""
     <style>
-    /* Remove default padding and margins */
+    /* Reset default padding */
     .block-container {padding: 0!important; margin: 0!important;}
-    body {margin:0; padding:0; overflow-x:hidden;}
+    body {margin: 0; padding: 0; overflow-x: hidden; background: black;}
 
-    /* Full-screen video background */
-    .video-background {
+    /* Background video for top section */
+    .bg-video {
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
         object-fit: cover;
-        z-index: -1;
-        filter: brightness(45%);
+        z-index: -2;
+        filter: brightness(40%);
     }
 
-    /* Name transition styles */
-    .name-container {
+    .overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.85));
+        z-index: -1;
+    }
+
+    /* Title */
+    .hero {
         height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
+        color: white;
+        font-family: 'Poppins', sans-serif;
     }
 
-    .name {
+    /* Font swap on hover (smooth) */
+    .hero-name {
+        font-size: 4.2em;
+        letter-spacing: 2px;
         font-family: 'Playfair Display', serif;
-        font-size: 4em;
-        color: #f5f5f5;
-        font-weight: 600;
-        transition: all 0.6s ease-in-out;
+        transition: 0.8s ease-in-out;
+        position: relative;
+        cursor: pointer;
     }
 
-    .name:hover {
-        content: attr(data-alt);
-        color: #f2b531;
-    }
-
-    .name:hover::after {
-        content: attr(data-alt);
-        display: block;
-        color: #f2b531;
+    .hero-name::after {
+        content: "मनीष श्रीराम";
         font-family: 'Noto Sans Devanagari', serif;
+        font-size: 4.2em;
+        position: absolute;
+        top: 0; left: 0;
+        color: #f2b531;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
     }
 
-    /* Top-left Nav */
+    .hero-name:hover {
+        color: transparent;
+    }
+
+    .hero-name:hover::after {
+        opacity: 1;
+    }
+
+    /* Top-left label */
     .top-left {
         position: absolute;
-        top: 20px;
-        left: 30px;
+        top: 25px; left: 35px;
         font-family: 'Poppins', sans-serif;
-        color: #e6e6e6;
-        font-size: 1.2em;
-        line-height: 1.5em;
-        z-index: 3;
+        font-size: 1.1em;
+        color: #dcdcdc;
     }
-
     .top-left span {
         display: block;
-        cursor: pointer;
-        color: #cccccc;
-        transition: color 0.3s ease;
+        margin-bottom: 4px;
+        transition: 0.3s;
     }
-
     .top-left span:hover {
-        color: #f5c518;
+        color: #f2b531;
     }
 
-    /* Section base */
+    /* Sections */
     .section {
         min-height: 100vh;
-        color: #ffffff;
-        background-color: #0f0f0f;
+        background: #0a0a0a;
+        color: white;
         padding: 5em 2em;
         text-align: center;
     }
-
-    .section-title {
-        font-size: 2em;
+    .section h2 {
         color: #f2b531;
-        margin-bottom: 1.2em;
-        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 1em;
     }
-
-    .section-text {
-        font-size: 1.1em;
-        color: #ccc;
-        line-height: 1.6;
+    .section p {
+        color: #bdbdbd;
         max-width: 700px;
-        margin: 0 auto 2em auto;
-    }
-
-    /* Instagram icon */
-    .insta {
-        margin-top: 2em;
+        margin: 0 auto;
+        line-height: 1.6em;
     }
 
     .insta img {
         width: 40px;
-        transition: transform 0.3s ease;
+        margin-top: 1.5em;
         filter: brightness(0) invert(1);
+        transition: transform 0.3s ease;
     }
-
     .insta img:hover {
         transform: scale(1.2);
-        filter: brightness(0.8) invert(0.9) sepia(1) hue-rotate(320deg);
+        filter: brightness(0.9) sepia(1) hue-rotate(320deg);
     }
-
     </style>
 """, unsafe_allow_html=True)
 
-# --- BACKGROUND VIDEO (replace with your file or url) ---
+# --- BACKGROUND VIDEO ---
 st.markdown("""
-<video autoplay loop muted playsinline class="video-background">
+<video autoplay loop muted playsinline class="bg-video">
     <source src="background.mp4" type="video/mp4">
 </video>
+<div class="overlay"></div>
 """, unsafe_allow_html=True)
 
-# --- MAIN NAME + HOVER EFFECT ---
+# --- HERO SECTION ---
 st.markdown("""
-<div class="name-container">
+<div class="hero">
     <div class="top-left">
         <span>My Edits</span>
-        <span><a href="#short-story" style="text-decoration:none; color:inherit;">Short Story</a></span>
+        <span>Short Story</span>
     </div>
-    <div class="name" data-alt="मनीष श्रीराम">Manish Shriram</div>
+    <div class="hero-name">Manish Shriram</div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- EDITS SECTION ---
-st.markdown("""
-<div id="edits" class="section">
-    <div class="section-title">My Edits</div>
-    <div class="section-text">Short cinematic edits blending visuals with emotional resonance.</div>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/oMDsZA73fJg" 
-            frameborder="0" allowfullscreen></iframe>
-</div>
-""", unsafe_allow_html=True)
-
-# --- SHORT STORY SECTION ---
-st.markdown("""
-<div id="short-story" class="section">
-    <div class="section-title">Short Story</div>
-    <div class="section-text">
-        Read my short story <a href="https://manishshriram.art.blog/" target="_blank" style="color:#f2b531;">here</a>.
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# --- ABOUT ME SECTION ---
+# --- SECTIONS BELOW ---
 st.markdown("""
 <div class="section">
-    <div class="section-title">About Me</div>
-    <div class="section-text">
-        A storyteller lost between frames and frequencies. I edit not for clients, but for catharsis.
-    </div>
+    <h2>My Edits</h2>
+    <p>Short cinematic edits where emotion meets frame and silence holds rhythm.</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/oMDsZA73fJg" frameborder="0" allowfullscreen></iframe>
 </div>
-""", unsafe_allow_html=True)
 
-# --- INSTAGRAM ICON ---
-st.markdown("""
 <div class="section">
-    <div class="section-title">Connect</div>
+    <h2>Short Story</h2>
+    <p>Read the full story on 
+        <a href="https://manishshriram.art.blog/" target="_blank" style="color:#f2b531;">my WordPress</a>.
+    </p>
+</div>
+
+<div class="section">
+    <h2>About Me</h2>
+    <p>A storyteller, editor, and dreamer. My work lives in moments – 
+    between nostalgia and light. These edits are fragments of my memory reel.</p>
+
     <div class="insta">
         <a href="https://www.instagram.com/yourprofilelink" target="_blank">
             <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram"/>
