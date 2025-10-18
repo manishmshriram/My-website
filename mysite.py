@@ -1,225 +1,181 @@
 import streamlit as st
 
-# ---------- CONFIG ----------
-st.set_page_config(page_title="Manish Shriram", layout="wide", page_icon="🎬")
+# --- PAGE SETUP ---
+st.set_page_config(
+    page_title="Manish's Site",
+    page_icon="🎬",
+    layout="wide"
+)
 
-# ---------- LINKS & MEDIA ----------
-BACKGROUND_IMAGE = "https://drive.google.com/uc?export=view&id=1boW3ZgpXPH__2hSF2qA-2pQT31JoyZVw"
-WORDPRESS_LINK = "https://manishshriram.art.blog/"
-INSTAGRAM_LINK = "https://instagram.com/"  # update later
-YOUTUBE_LINKS = [
-    "https://www.youtube.com/embed/3p9H3gZtD98",
-    "https://www.youtube.com/embed/dQw4w9WgXcQ",
-]
-
-# ---------- CSS STYLING ----------
-st.markdown(
-    f"""
+# --- BACKGROUND VIDEO & STYLE ---
+st.markdown("""
     <style>
-    /* Import fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap');
+    /* Remove default padding and margins */
+    .block-container {padding: 0!important; margin: 0!important;}
+    body {margin:0; padding:0; overflow-x:hidden;}
 
-    html, body, [class*="stApp"] {{
-        height: 100%;
-        margin: 0;
-        background-color: #000;
-        color: #fff;
-        font-family: 'Poppins', sans-serif;
-        scroll-behavior: smooth;
-        overflow-x: hidden;
-    }}
-
-    /* Background image styling */
-    .bg-container {{
+    /* Full-screen video background */
+    .video-background {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        z-index: -1;
-        background: url('{BACKGROUND_IMAGE}') no-repeat center center/cover;
-        filter: brightness(0.35);
-    }}
-
-    /* Overlay fade */
-    .overlay {{
-        position: absolute;
         top: 0; left: 0;
-        width: 100%;
-        height: 100vh;
-        background: rgba(0,0,0,0.55);
+        width: 100%; height: 100%;
+        object-fit: cover;
         z-index: -1;
-    }}
+        filter: brightness(45%);
+    }
 
-    /* Cinematic fade-in animation */
-    @keyframes fadeIn {{
-        from {{ opacity: 0; transform: translateY(20px); }}
-        to {{ opacity: 1; transform: translateY(0); }}
-    }}
-
-    /* Name styling and Marathi hover transition */
-    .main-name {{
-        font-family: 'Playfair Display', serif;
-        font-size: 4.5vw;
-        text-align: center;
-        position: relative;
-        margin-top: 40vh;
-        animation: fadeIn 2s ease-out forwards;
-        color: #fff;
-        cursor: pointer;
-    }}
-    .main-name::after {{
-        content: "मनीष श्रीराम";
-        position: absolute;
-        left: 0; right: 0;
-        top: 0;
-        opacity: 0;
-        transition: opacity 1s ease;
-        font-family: 'Noto Serif Devanagari', serif;
-    }}
-    .main-name:hover::after {{
-        opacity: 1;
-    }}
-    .main-name:hover {{
-        color: rgba(255,255,255,0);
-    }}
-
-    /* Top-left labels */
-    .top-labels {{
-        position: absolute;
-        top: 3vh;
-        left: 3vw;
-        font-size: 1rem;
-        font-family: 'Poppins', sans-serif;
-        animation: fadeIn 3s ease;
-    }}
-    .top-labels a {{
-        display: block;
-        color: #ddd;
-        text-decoration: none;
-        margin-bottom: 8px;
-        transition: color 0.3s ease;
-    }}
-    .top-labels a:hover {{
-        color: #fff;
-    }}
-
-    /* Section styling */
-    .section {{
-        padding: 10vh 10vw;
-        text-align: center;
-        animation: fadeIn 2s ease;
-    }}
-    .section h2 {{
-        font-family: 'Playfair Display', serif;
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }}
-    .section p {{
-        font-size: 1rem;
-        max-width: 600px;
-        margin: auto;
-        color: #ccc;
-    }}
-
-    /* YouTube grid */
-    .video-grid {{
+    /* Name transition styles */
+    .name-container {
+        height: 100vh;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         justify-content: center;
-        gap: 2rem;
-        margin-top: 3rem;
-    }}
-    .video-grid iframe {{
-        width: 400px;
-        height: 225px;
-        border: none;
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(255,255,255,0.1);
-        transition: transform 0.5s ease;
-    }}
-    .video-grid iframe:hover {{
-        transform: scale(1.05);
-    }}
+        align-items: center;
+        text-align: center;
+    }
 
-    /* Button */
-    .story-button {{
-        background: none;
-        border: 1px solid #fff;
-        color: #fff;
-        padding: 0.6rem 1.2rem;
-        margin-top: 1.5rem;
-        text-decoration: none;
-        border-radius: 25px;
-        transition: all 0.3s ease;
-    }}
-    .story-button:hover {{
-        background: #fff;
-        color: #000;
-    }}
+    .name {
+        font-family: 'Playfair Display', serif;
+        font-size: 4em;
+        color: #f5f5f5;
+        font-weight: 600;
+        transition: all 0.6s ease-in-out;
+    }
+
+    .name:hover {
+        content: attr(data-alt);
+        color: #f2b531;
+    }
+
+    .name:hover::after {
+        content: attr(data-alt);
+        display: block;
+        color: #f2b531;
+        font-family: 'Noto Sans Devanagari', serif;
+    }
+
+    /* Top-left Nav */
+    .top-left {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        font-family: 'Poppins', sans-serif;
+        color: #e6e6e6;
+        font-size: 1.2em;
+        line-height: 1.5em;
+        z-index: 3;
+    }
+
+    .top-left span {
+        display: block;
+        cursor: pointer;
+        color: #cccccc;
+        transition: color 0.3s ease;
+    }
+
+    .top-left span:hover {
+        color: #f5c518;
+    }
+
+    /* Section base */
+    .section {
+        min-height: 100vh;
+        color: #ffffff;
+        background-color: #0f0f0f;
+        padding: 5em 2em;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 2em;
+        color: #f2b531;
+        margin-bottom: 1.2em;
+        font-weight: bold;
+    }
+
+    .section-text {
+        font-size: 1.1em;
+        color: #ccc;
+        line-height: 1.6;
+        max-width: 700px;
+        margin: 0 auto 2em auto;
+    }
 
     /* Instagram icon */
-    .insta {{
-        margin-top: 4rem;
-    }}
-    .insta a {{
-        color: #fff;
-        font-size: 2rem;
-        transition: text-shadow 0.4s ease;
-    }}
-    .insta a:hover {{
-        text-shadow: 0 0 10px #fff;
-    }}
+    .insta {
+        margin-top: 2em;
+    }
 
-    /* Responsive */
-    @media (max-width: 768px) {{
-        .main-name {{
-            font-size: 8vw;
-            margin-top: 45vh;
-        }}
-        .video-grid iframe {{
-            width: 90vw;
-            height: 200px;
-        }}
-    }}
+    .insta img {
+        width: 40px;
+        transition: transform 0.3s ease;
+        filter: brightness(0) invert(1);
+    }
+
+    .insta img:hover {
+        transform: scale(1.2);
+        filter: brightness(0.8) invert(0.9) sepia(1) hue-rotate(320deg);
+    }
+
     </style>
-    """,
-    unsafe_allow_html=True,
-)
+""", unsafe_allow_html=True)
 
-# ---------- HTML STRUCTURE ----------
-st.markdown(
-    f"""
-    <div class="bg-container"></div>
-    <div class="overlay"></div>
+# --- BACKGROUND VIDEO (replace with your file or url) ---
+st.markdown("""
+<video autoplay loop muted playsinline class="video-background">
+    <source src="background.mp4" type="video/mp4">
+</video>
+""", unsafe_allow_html=True)
 
-    <div class="top-labels">
-        <a href="#edits">My Edits</a>
-        <a href="#story">Short Story</a>
+# --- MAIN NAME + HOVER EFFECT ---
+st.markdown("""
+<div class="name-container">
+    <div class="top-left">
+        <span>My Edits</span>
+        <span><a href="#short-story" style="text-decoration:none; color:inherit;">Short Story</a></span>
     </div>
+    <div class="name" data-alt="मनीष श्रीराम">Manish Shriram</div>
+</div>
+""", unsafe_allow_html=True)
 
-    <div class="main-name">Manish Shriram</div>
+# --- EDITS SECTION ---
+st.markdown("""
+<div id="edits" class="section">
+    <div class="section-title">My Edits</div>
+    <div class="section-text">Short cinematic edits blending visuals with emotional resonance.</div>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/oMDsZA73fJg" 
+            frameborder="0" allowfullscreen></iframe>
+</div>
+""", unsafe_allow_html=True)
 
-    <div class="section" id="edits">
-        <h2>My Edits</h2>
-        <div class="video-grid">
-            {''.join([f'<iframe src="{link}" allowfullscreen></iframe>' for link in YOUTUBE_LINKS])}
-        </div>
+# --- SHORT STORY SECTION ---
+st.markdown("""
+<div id="short-story" class="section">
+    <div class="section-title">Short Story</div>
+    <div class="section-text">
+        Read my short story <a href="https://manishshriram.art.blog/" target="_blank" style="color:#f2b531;">here</a>.
     </div>
+</div>
+""", unsafe_allow_html=True)
 
-    <div class="section" id="story">
-        <h2>Short Story</h2>
-        <p>"Ek Sauvi Raat" — a cinematic monologue blending humor, emotion, and philosophy.</p>
-        <a href="{WORDPRESS_LINK}" target="_blank" class="story-button">Read the Story</a>
+# --- ABOUT ME SECTION ---
+st.markdown("""
+<div class="section">
+    <div class="section-title">About Me</div>
+    <div class="section-text">
+        A storyteller lost between frames and frequencies. I edit not for clients, but for catharsis.
     </div>
+</div>
+""", unsafe_allow_html=True)
 
-    <div class="section" id="about">
-        <h2>About Me</h2>
-        <p>I’m Manish — a storyteller, aesthetic editor, and lover of cinematic rhythm. My work blends emotion with visual poetry.</p>
-        <div class="insta">
-            <a href="{INSTAGRAM_LINK}" target="_blank">📸</a>
-        </div>
+# --- INSTAGRAM ICON ---
+st.markdown("""
+<div class="section">
+    <div class="section-title">Connect</div>
+    <div class="insta">
+        <a href="https://www.instagram.com/yourprofilelink" target="_blank">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram"/>
+        </a>
     </div>
-    """,
-    unsafe_allow_html=True,
-)
+</div>
+""", unsafe_allow_html=True)
