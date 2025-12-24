@@ -1,9 +1,8 @@
-# app.py
 import streamlit as st
 import streamlit.components.v1 as components
 
 # -------------------------
-# Config
+# PAGE CONFIG (must be at top)
 # -------------------------
 st.set_page_config(
     page_title="Manish Shriram",
@@ -12,7 +11,7 @@ st.set_page_config(
 )
 
 # -------------------------
-# Data
+# YOUR CONTENT (edit these safely)
 # -------------------------
 video_links = [
     "https://www.youtube.com/embed/oMDsZA73fJg?si=OtOy4C5yqhVqao6B",
@@ -32,60 +31,80 @@ SHORT_STORY_TITLE = "100th Night"
 SHORT_STORY_URL = "https://manishshriram.art.blog/"
 INSTAGRAM_URL = "https://www.instagram.com/yourprofilelink"
 
+# Optional: replace later with your image
+ABOUT_IMAGE_URL = "https://images.unsplash.com/photo-1520975958225-4f11f3b95c95?auto=format&fit=crop&w=1200&q=60"
+
+ABOUT_TEXT = """Welcome to my corner of the internet.
+
+A storyteller, editor, and dreamer. My work lives in moments – between nostalgia and light.
+These edits are fragments of my memory reel.
+"""
+
 # -------------------------
-# Styles (Dark + Yellow Aesthetic)
+# THEME (golden background + cinelover minimal)
 # -------------------------
-YELLOW = "#d8b14c"   # warm yellow / golden
-BG = "#07090f"       # near black
-MUTED = "#a9b0bd"    # muted text
+BG = "#caa24a"          # golden background
+BG_2 = "#e2c36c"        # lighter golden for gradient
+INK = "#121214"         # primary text on gold
+INK_MUTED = "#2a2a2f"   # muted text on gold
+PILL_BG = "rgba(18,18,20,0.07)"
+PILL_BORDER = "rgba(18,18,20,0.20)"
+PILL_BG_HOVER = "rgba(18,18,20,0.12)"
+PILL_BORDER_HOVER = "rgba(18,18,20,0.35)"
+CARD_BG = "rgba(18,18,20,0.06)"
+CARD_BORDER = "rgba(18,18,20,0.14)"
 
 st.markdown(
     f"""
     <style>
-      /* Base app background */
+      /* App background (gold gradient + subtle "film" texture) */
       .stApp {{
-        background: {BG};
-        color: #e9edf6;
+        background: radial-gradient(1200px 600px at 20% 10%, {BG_2} 0%, {BG} 55%, {BG} 100%);
+        color: {INK};
       }}
 
-      /* Remove Streamlit chrome */
+      /* Soft grain overlay (CSS-only, very subtle) */
+      .stApp:before {{
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
+        background-size: 3px 3px;
+        opacity: 0.14;
+        mix-blend-mode: multiply;
+      }}
+
+      /* Hide Streamlit chrome */
       #MainMenu {{visibility: hidden;}}
       footer {{visibility: hidden;}}
       header {{visibility: hidden;}}
 
-      /* Reduce default padding */
+      /* Container width + spacing */
       div.block-container {{
         padding-top: 1.4rem;
-        padding-bottom: 2.2rem;
+        padding-bottom: 2.0rem;
         max-width: 1120px;
       }}
 
-      /* Top Name Hover Effect */
-      .name-wrap {{
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
-        margin-bottom: 0.75rem;
-      }}
-
+      /* Big name hover effect (English -> Devanagari) */
       .name {{
         font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-        font-size: 0.95rem;
-        letter-spacing: 0.5px;
-        color: {YELLOW};
+        font-weight: 700;
+        font-size: 1.65rem;
+        letter-spacing: 0.4px;
+        color: {INK};
         user-select: none;
         position: relative;
         display: inline-block;
-        line-height: 1.1;
-        opacity: 0.95;
+        line-height: 1.15;
+        margin-bottom: 0.6rem;
       }}
-
       .name .en {{
         opacity: 1;
         transition: opacity 220ms ease;
       }}
-
       .name .hi {{
         position: absolute;
         left: 0;
@@ -94,103 +113,123 @@ st.markdown(
         transition: opacity 220ms ease;
         white-space: nowrap;
       }}
-
       .name:hover .en {{ opacity: 0; }}
       .name:hover .hi {{ opacity: 1; }}
 
-      /* Subtitle / small muted text */
-      .muted {{
-        color: {MUTED};
-        font-size: 0.9rem;
+      .subline {{
+        color: {INK_MUTED};
+        font-size: 0.98rem;
+        margin-bottom: 0.9rem;
       }}
 
-      /* Nav: style the st.radio to look like clean links */
+      /* Navigation radio -> pill menu */
       div[data-baseweb="radio"] > div {{
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: wrap !important;
         gap: 12px !important;
         align-items: center !important;
+        margin-bottom: 8px !important;
       }}
 
-      /* Each option container */
       div[data-baseweb="radio"] label {{
         margin: 0 !important;
       }}
 
-      /* Pill button look */
+      /* Hide default radio circle */
       div[data-baseweb="radio"] label > div:first-child {{
-        display: none !important; /* hide the default circle */
+        display: none !important;
       }}
 
+      /* Pill */
       div[data-baseweb="radio"] label > div:last-child {{
-        padding: 8px 12px !important;
+        padding: 10px 14px !important;
         border-radius: 999px !important;
-        border: 1px solid rgba(216, 177, 76, 0.25) !important;
-        background: rgba(255,255,255,0.02) !important;
-        color: {YELLOW} !important;
-        font-size: 0.92rem !important;
+        border: 1px solid {PILL_BORDER} !important;
+        background: {PILL_BG} !important;
+        color: {INK} !important;
+        font-size: 1.03rem !important;
+        font-weight: 600 !important;
         letter-spacing: 0.2px !important;
         transition: transform 160ms ease, background 160ms ease, border 160ms ease;
       }}
 
       div[data-baseweb="radio"] label:hover > div:last-child {{
         transform: translateY(-1px);
-        background: rgba(216, 177, 76, 0.08) !important;
-        border: 1px solid rgba(216, 177, 76, 0.55) !important;
+        background: {PILL_BG_HOVER} !important;
+        border: 1px solid {PILL_BORDER_HOVER} !important;
       }}
 
-      /* Selected state (best-effort selectors; Streamlit DOM can change) */
+      /* Selected (best-effort) */
       div[data-baseweb="radio"] input:checked + div {{
-        background: rgba(216, 177, 76, 0.14) !important;
-        border: 1px solid rgba(216, 177, 76, 0.8) !important;
+        background: rgba(18,18,20,0.16) !important;
+        border: 1px solid rgba(18,18,20,0.55) !important;
       }}
 
-      /* Headings */
-      h1, h2, h3 {{
-        color: {YELLOW};
+      /* Section title */
+      .section-title {{
+        font-size: 1.55rem;
+        font-weight: 800;
+        margin: 0.2rem 0 0.9rem 0;
+        color: {INK};
         letter-spacing: 0.2px;
       }}
 
-      /* Responsive video wrapper */
+      /* Video card with hover effect */
+      .video-card {{
+        border-radius: 16px;
+        overflow: hidden;
+        background: {CARD_BG};
+        border: 1px solid {CARD_BORDER};
+        box-shadow: 0 10px 30px rgba(18,18,20,0.10);
+        transform: translateY(0);
+        transition: transform 180ms ease, box-shadow 180ms ease, border 180ms ease;
+      }}
+      .video-card:hover {{
+        transform: translateY(-3px) scale(1.01);
+        border: 1px solid rgba(18,18,20,0.35);
+        box-shadow: 0 18px 45px rgba(18,18,20,0.16);
+      }}
+
+      /* Responsive 16:9 wrapper */
       .video-wrap {{
         position: relative;
         width: 100%;
-        padding-top: 56.25%; /* 16:9 */
-        border-radius: 14px;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.06);
-        background: rgba(255,255,255,0.02);
+        padding-top: 56.25%;
       }}
-
       .video-wrap iframe {{
         position: absolute;
-        top: 0; left: 0;
+        inset: 0;
         width: 100%;
         height: 100%;
       }}
 
-      /* Content section spacing */
-      .section {{
-        margin-top: 0.8rem;
-      }}
-
-      /* Make links yellow-ish */
+      /* Links */
       a, a:visited {{
-        color: {YELLOW};
-        text-decoration: none;
+        color: {INK};
+        text-decoration: underline;
+        text-underline-offset: 3px;
       }}
       a:hover {{
-        text-decoration: underline;
+        opacity: 0.85;
       }}
 
-      /* Mobile tweaks */
+      /* Mobile improvements (bigger, cleaner) */
       @media (max-width: 640px) {{
         div.block-container {{
           padding-top: 1.1rem;
+          padding-left: 1.0rem;
+          padding-right: 1.0rem;
         }}
         .name {{
-          font-size: 0.95rem;
+          font-size: 2.05rem;
+        }}
+        .subline {{
+          font-size: 1.05rem;
+        }}
+        div[data-baseweb="radio"] label > div:last-child {{
+          padding: 12px 14px !important;
+          font-size: 1.08rem !important;
         }}
       }}
     </style>
@@ -199,31 +238,27 @@ st.markdown(
 )
 
 # -------------------------
-# Header
+# HEADER
 # -------------------------
 st.markdown(
     """
-    <div class="name-wrap">
-      <div>
-        <div class="name">
-          <span class="en">Manish Shriram</span>
-          <span class="hi">मनीष श्रीराम</span>
-        </div>
-      </div>
-      <div class="muted"></div>
+    <div class="name">
+      <span class="en">Manish Shriram</span>
+      <span class="hi">मनीष श्रीराम</span>
     </div>
+    <div class="subline">Cinelover minimal — edits, stories, and memory reels.</div>
     """,
     unsafe_allow_html=True,
 )
 
 # -------------------------
-# Navigation (4 items)
+# NAV (icons included)
 # -------------------------
-pages = ["Edits", "Short Story", "About Me", "Instagram"]
+pages = ["🎬 Edits", "✍️ Short Story", "🙂 About Me", "📷 Instagram"]
 
-default_page = st.session_state.get("page", "Edits")
+default_page = st.session_state.get("page", "🎬 Edits")
 if default_page not in pages:
-    default_page = "Edits"
+    default_page = "🎬 Edits"
 
 selected = st.radio(
     "Navigation",
@@ -234,105 +269,103 @@ selected = st.radio(
     key="page",
 )
 
-# Divider line (subtle)
+# subtle divider
 st.markdown(
-    '<div style="height:1px;background:rgba(255,255,255,0.06);margin:14px 0 18px 0;"></div>',
+    '<div style="height:1px;background:rgba(18,18,20,0.14);margin:14px 0 18px 0;"></div>',
     unsafe_allow_html=True,
 )
 
 # -------------------------
-# Helpers
+# HELPERS
 # -------------------------
-def render_youtube_embed(embed_url: str):
+def title(text: str):
+    st.markdown(f"<div class='section-title'>{text}</div>", unsafe_allow_html=True)
+
+def youtube_card(embed_url: str):
+    # Height here is just the reserved space for Streamlit; the actual iframe is responsive via CSS.
     components.html(
         f"""
-        <div class="video-wrap">
-          <iframe
-            src="{embed_url}"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
+        <div class="video-card">
+          <div class="video-wrap">
+            <iframe
+              src="{embed_url}"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </div>
         </div>
         """,
-        height=420,  # wrapper scales; height just reserves space in Streamlit layout
+        height=430,
     )
 
-def h2(title: str):
-    st.markdown(f"<h2 style='margin:0 0 0.7rem 0;'>{title}</h2>", unsafe_allow_html=True)
-
 # -------------------------
-# Pages
+# PAGES
 # -------------------------
-if selected == "Edits":
-    h2("Edits")
-    st.markdown("<div class='section'></div>", unsafe_allow_html=True)
+if selected == "🎬 Edits":
+    title("Edits")
 
-    # Layout: on desktop use 2 columns; on mobile it stacks automatically
+    # Two columns on desktop, automatically stacks on small screens.
     cols = st.columns(2, gap="large")
     for i, url in enumerate(video_links):
         with cols[i % 2]:
-            render_youtube_embed(url)
-            st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
+            youtube_card(url)
+            st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
 
-elif selected == "Short Story":
-    h2(SHORT_STORY_TITLE)
+elif selected == "✍️ Short Story":
+    title(SHORT_STORY_TITLE)
+
     st.markdown(
-        f"<div class='muted' style='margin-bottom:10px;'>Read directly here (if embed is blocked, use the link below).</div>",
+        "<div style='color:rgba(18,18,20,0.75); margin-bottom:10px;'>"
+        "If the preview does not load, open it using the link below."
+        "</div>",
         unsafe_allow_html=True,
     )
 
-    # Some sites disable embedding via X-Frame-Options/CSP. Provide link as fallback.
-    st.markdown(f"<a href='{SHORT_STORY_URL}' target='_blank'>Open: {SHORT_STORY_URL}</a>", unsafe_allow_html=True)
+    st.markdown(f"<a href='{SHORT_STORY_URL}' target='_blank'>Open story site</a>", unsafe_allow_html=True)
     st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
-    try:
-        components.iframe(SHORT_STORY_URL, height=900, scrolling=True)
-    except Exception:
-        st.warning("This site may block embedding. Use the link above to open it.")
+    # Embedded preview
+    components.iframe(SHORT_STORY_URL, height=900, scrolling=True)
 
-elif selected == "About Me":
-    h2("About Me")
+elif selected == "🙂 About Me":
+    title("About Me")
 
-    col1, col2 = st.columns([1, 2], gap="large")
+    c1, c2 = st.columns([1, 2], gap="large")
 
-    with col1:
-        # Replace with your real photo later (e.g., st.image("static/profile.jpg"))
-        st.image(
-            "https://images.unsplash.com/photo-1520975958225-4f11f3b95c95?auto=format&fit=crop&w=800&q=60",
-            caption="(Replace this with your photo)",
-            use_container_width=True,
-        )
+    with c1:
+        st.image(ABOUT_IMAGE_URL, use_container_width=True)
 
-    with col2:
+    with c2:
         st.markdown(
             f"""
-            <div style="color:#e9edf6; font-size:1.05rem; line-height:1.65;">
-              <div style="margin-bottom:12px;">Welcome to my corner of the internet.</div>
-              <div style="color:{MUTED};">
-                A storyteller, editor, and dreamer. My work lives in moments – between nostalgia and light.
-                These edits are fragments of my memory reel.
-              </div>
+            <div style="font-size:1.08rem; line-height:1.7; color:{INK};">
+              {ABOUT_TEXT.replace("\n", "<br>")}
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-elif selected == "Instagram":
-    h2("Instagram")
+elif selected == "📷 Instagram":
+    title("Instagram")
+
     st.markdown(
         f"""
-        <div class="muted" style="margin-bottom:12px;">Find me on Instagram.</div>
+        <div style="color:{INK_MUTED}; font-size:1.02rem; margin-bottom:12px;">
+          Find me on Instagram.
+        </div>
+
         <a href="{INSTAGRAM_URL}" target="_blank"
            style="
              display:inline-block;
-             padding:10px 14px;
+             padding:12px 16px;
              border-radius:999px;
-             border:1px solid rgba(216,177,76,0.55);
-             background: rgba(216,177,76,0.10);
+             border:1px solid rgba(18,18,20,0.35);
+             background: rgba(18,18,20,0.10);
+             font-weight:700;
            ">
-           Open Instagram
+           Open Instagram →
         </a>
         """,
         unsafe_allow_html=True,
