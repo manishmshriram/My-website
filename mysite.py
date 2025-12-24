@@ -1,13 +1,18 @@
 import streamlit as st
 from streamlit.components.v1 import html
 
+# ------------------ PAGE CONFIG ------------------
 st.set_page_config(
     page_title="Manish Shriram",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# -------------------- VIDEO LINKS --------------------
+# ------------------ STATE ------------------
+if "section" not in st.session_state:
+    st.session_state.section = "Edits"
+
+# ------------------ DATA ------------------
 video_links = [
     "https://www.youtube.com/embed/oMDsZA73fJg",
     "https://www.youtube.com/embed/NNHJxvZxyoM",
@@ -22,209 +27,177 @@ video_links = [
     "https://www.youtube.com/embed/aNFGiVwt4uE",
 ]
 
-# -------------------- GLOBAL CSS --------------------
+# ------------------ GLOBAL CSS ------------------
 st.markdown("""
 <style>
 html, body {
-    background-color: #0e0e0e;
+    background-color: #0b0b0b;
     color: #e6c56f;
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
+    font-family: Inter, sans-serif;
 }
 
-a {
-    text-decoration: none;
-    color: #e6c56f;
+/* Remove Streamlit clutter */
+#MainMenu, footer, header {
+    visibility: hidden;
 }
 
-section {
-    animation: fadeIn 0.9s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px);}
-    to { opacity: 1; transform: translateY(0);}
-}
-
-/* Background Video */
-#bg-video {
+/* Name hover */
+.name-box {
     position: fixed;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    min-height: 100%;
-    object-fit: cover;
-    z-index: -2;
-    filter: brightness(0.55);
-}
-
-/* Overlay */
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-    z-index: -1;
-}
-
-/* Name Hover */
-.name {
-    position: fixed;
-    top: 30px;
-    right: 40px;
-    font-size: 26px;
+    top: 28px;
+    left: 32px;
+    font-size: 22px;
     font-weight: 500;
+    color: #e6c56f;
     cursor: pointer;
+    z-index: 1000;
 }
-
-.name span {
-    transition: opacity 0.4s ease;
+.name-box span {
+    transition: opacity 0.35s ease;
 }
-
-.name .dev {
+.name-box .dev {
     position: absolute;
     opacity: 0;
 }
-
-.name:hover .eng {
+.name-box:hover .eng {
     opacity: 0;
 }
-
-.name:hover .dev {
+.name-box:hover .dev {
     opacity: 1;
 }
 
-/* Left Menu */
-.menu {
-    position: fixed;
-    top: 40%;
-    left: 40px;
+/* Navigation */
+.nav {
+    margin-top: 80px;
     display: flex;
-    flex-direction: column;
-    gap: 18px;
-    font-size: 18px;
+    gap: 24px;
+    flex-wrap: wrap;
 }
-
-.menu a:hover {
+.nav button {
+    background: none;
+    border: none;
+    color: #e6c56f;
+    font-size: 16px;
+    cursor: pointer;
+}
+.nav button:hover {
     opacity: 0.7;
 }
 
-/* Video Grid */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
+/* Section titles */
+.section-title {
+    font-size: 32px;
+    margin: 60px 0 30px 0;
 }
 
-.video iframe {
+/* Video grid */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+}
+.video-grid iframe {
     width: 100%;
     height: 200px;
     border-radius: 8px;
-    transition: transform 0.4s ease;
-}
-
-.video iframe:hover {
-    transform: scale(1.05);
 }
 
 /* About */
-.about {
-    max-width: 700px;
-    font-size: 18px;
-    line-height: 1.7;
+.about-wrap {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
 }
-
-.about img {
-    width: 200px;
-    border-radius: 50%;
-    margin-bottom: 20px;
+.about-wrap img {
+    width: 220px;
+    border-radius: 6px;
+}
+.about-text {
+    max-width: 520px;
+    font-size: 17px;
+    line-height: 1.7;
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-    .menu {
-        top: auto;
-        bottom: 30px;
-        left: 20px;
-        flex-direction: row;
-        gap: 14px;
-        font-size: 14px;
+    .section-title {
+        font-size: 26px;
     }
-
-    .name {
-        font-size: 18px;
-        right: 20px;
+    .video-grid iframe {
+        height: 190px;
     }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------- BACKGROUND VIDEO --------------------
+# ------------------ NAME ------------------
 html("""
-<video autoplay muted loop id="bg-video">
-    <source src="background.mp4" type="video/mp4">
-</video>
-<div class="overlay"></div>
-""", height=0)
-
-# -------------------- NAME (TOP RIGHT) --------------------
-html("""
-<div class="name">
+<div class="name-box">
     <span class="eng">Manish Shriram</span>
     <span class="dev">मनीष श्रीराम</span>
 </div>
 """)
 
-# -------------------- LEFT MENU --------------------
-html("""
-<div class="menu">
-    <a href="#edits">Edits</a>
-    <a href="#story">Short Story</a>
-    <a href="#about">About Me</a>
-    <a href="https://www.instagram.com/yourprofilelink" target="_blank">Instagram</a>
-</div>
-""")
+# ------------------ NAVIGATION ------------------
+st.markdown("<div class='nav'>", unsafe_allow_html=True)
 
-# -------------------- SPACER --------------------
-st.markdown("<div style='height:120px'></div>", unsafe_allow_html=True)
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    if st.button("Edits"):
+        st.session_state.section = "Edits"
+with col2:
+    if st.button("Short Story"):
+        st.session_state.section = "Short Story"
+with col3:
+    if st.button("About Me"):
+        st.session_state.section = "About Me"
+with col4:
+    if st.button("Instagram"):
+        st.session_state.section = "Instagram"
 
-# -------------------- EDITS SECTION --------------------
-st.markdown("<section id='edits'></section>", unsafe_allow_html=True)
-st.markdown("## Edits")
-
-st.markdown("<div class='grid'>", unsafe_allow_html=True)
-for link in video_links:
-    st.markdown(f"""
-    <div class="video">
-        <iframe src="{link}" frameborder="0" allowfullscreen></iframe>
-    </div>
-    """, unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-# -------------------- STORY SECTION --------------------
-st.markdown("<div style='height:100px'></div>", unsafe_allow_html=True)
-st.markdown("<section id='story'></section>", unsafe_allow_html=True)
-st.markdown("## 100th Night")
+# ------------------ CONTENT ------------------
+if st.session_state.section == "Edits":
+    st.markdown("<div class='section-title'>Edits</div>", unsafe_allow_html=True)
+    st.markdown("<div class='video-grid'>", unsafe_allow_html=True)
+    for v in video_links:
+        st.markdown(
+            f"<iframe src='{v}' frameborder='0' allowfullscreen></iframe>",
+            unsafe_allow_html=True
+        )
+    st.markdown("</div>", unsafe_allow_html=True)
 
-html("""
-<iframe src="https://manishshriram.art.blog/"
-        width="100%"
-        height="600"
-        style="border:none; border-radius:10px;">
-</iframe>
-""")
+elif st.session_state.section == "Short Story":
+    st.markdown("<div class='section-title'>100th Night</div>", unsafe_allow_html=True)
+    html("""
+    <iframe src="https://manishshriram.art.blog/"
+            width="100%"
+            height="650"
+            style="border:none; border-radius:8px;">
+    </iframe>
+    """)
 
-# -------------------- ABOUT SECTION --------------------
-st.markdown("<div style='height:100px'></div>", unsafe_allow_html=True)
-st.markdown("<section id='about'></section>", unsafe_allow_html=True)
-st.markdown("## About Me")
+elif st.session_state.section == "About Me":
+    st.markdown("<div class='section-title'>About Me</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="about-wrap">
+        <img src="https://via.placeholder.com/400">
+        <div class="about-text">
+            <p>Welcome to my corner of the internet.</p>
+            <p>
+            A storyteller, editor, and dreamer. My work lives in moments –
+            between nostalgia and light. These edits are fragments of my memory reel.
+            </p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="about">
-    <img src="https://via.placeholder.com/300">
-    <p>
-    Welcome to my corner of the internet.<br><br>
-    A storyteller, editor, and dreamer. My work lives in moments – between nostalgia and light.
-    These edits are fragments of my memory reel.
-    </p>
-</div>
-""", unsafe_allow_html=True)
+elif st.session_state.section == "Instagram":
+    st.markdown("<div class='section-title'>Instagram</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <p>Find me on Instagram</p>
+    <a href="https://www.instagram.com/yourprofilelink" target="_blank">
+        https://www.instagram.com/yourprofilelink
+    </a>
+    """, unsafe_allow_html=True)
