@@ -398,18 +398,25 @@ elif selected == "🙂 About Me":
 
 
 elif selected == "📷 Instagram":
-    st.title("Instagram")
+    title("Instagram")
 
     st.markdown(
-        """
-        <p style="color:#777; font-size:1.05rem;">
-        Find me on Instagram.
-        </p>
-        """,
-        unsafe_allow_html=True
-    )
+        f"""
+        <div style="color:{INK_MUTED}; font-size:1.02rem; margin-bottom:12px;">
+          Find me on Instagram.
+        </div>
 
-    st.link_button(
-        "Open Instagram →",
-        "https://www.instagram.com/m.m.shriram/"
+        <a href="{https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==}" target="_blank"
+           style="
+             display:inline-block;
+             padding:12px 16px;
+             border-radius:999px;
+             border:1px solid rgba(18,18,20,0.35);
+             background: rgba(18,18,20,0.10);
+             font-weight:700;
+           ">
+           Open Instagram →
+        </a>
+        """,
+        unsafe_allow_html=True,
     )
