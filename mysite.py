@@ -34,10 +34,10 @@ INSTAGRAM_URL = "https://www.instagram.com/yourprofilelink"
 # Optional: replace later with your image
 ABOUT_IMAGE_URL = "https://images.unsplash.com/photo-1520975958225-4f11f3b95c95?auto=format&fit=crop&w=1200&q=60"
 
-ABOUT_TEXT = """Welcome to my corner of the internet.
-
-A storyteller, editor, and dreamer. My work lives in moments – between nostalgia and light.
-These edits are fragments of my memory reel.
+ABOUT_TEXT = """Hi. Welcome to my Part of Internet 
+This is my website
+I’m a movie lover who edits favourite songs onto favourite scenes—because feelings are easier with background music.
+If you’re here for edits, stories, or a tasteful amount of emotional damage, you’re in the right place.
 """
 
 # -------------------------
@@ -367,7 +367,7 @@ elif selected == "✍️ Short Story":
 
     st.markdown(
         "<div style='color:rgba(18,18,20,0.75); margin-bottom:10px;'>"
-        "If the preview does not load, open it using the link below."
+        "If the preview does not load, open it using the link below. *(Also get fast Internet)"
         "</div>",
         unsafe_allow_html=True,
     )
