@@ -335,7 +335,7 @@ elif selected == "🙂 About Me":
 
     with c1:
         st.image(
-            "https://raw.githubusercontent.com/manishmshriram/My-website/main/My%20Images.jpg",
+            "My Images.jpg",
             use_container_width=True
         )
 
@@ -346,6 +346,7 @@ elif selected == "🙂 About Me":
             f"</div>",
             unsafe_allow_html=True,
         )
+
 
 
 elif selected == "📷 Instagram":
