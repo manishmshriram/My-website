@@ -176,20 +176,21 @@ st.markdown(
       }}
 
       /* Video card with hover effect */
-      .video-card {{
-        border-radius: 16px;
-        overflow: hidden;
-        background: {CARD_BG};
-        border: 1px solid {CARD_BORDER};
-        box-shadow: 0 10px 30px rgba(18,18,20,0.10);
-        transform: translateY(0);
-        transition: transform 180ms ease, box-shadow 180ms ease, border 180ms ease;
-      }}
-      .video-card:hover {{
-        transform: translateY(-3px) scale(1.01);
-        border: 1px solid rgba(18,18,20,0.35);
-        box-shadow: 0 18px 45px rgba(18,18,20,0.16);
-      }}
+      .video-card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: transparent;
+  border: 1.2px solid rgba(18,18,20,0.35);
+  box-shadow: none;
+  transform: translateY(0);
+  transition: transform 420ms ease, box-shadow 420ms ease;
+}
+
+     .video-card:hover {
+  transform: scale(1.045);
+  box-shadow: 0 25px 60px rgba(18,18,20,0.22);
+}
+
 
       /* Responsive 16:9 wrapper */
       .video-wrap {{
@@ -282,10 +283,23 @@ def title(text: str):
     st.markdown(f"<div class='section-title'>{text}</div>", unsafe_allow_html=True)
 
 def youtube_card(embed_url: str):
-    # Height here is just the reserved space for Streamlit; the actual iframe is responsive via CSS.
     components.html(
         f"""
-        <div class="video-card">
+        <div class="video-card" style="position:relative;">
+          
+          <div style="
+            position:absolute;
+            top:12px;
+            right:14px;
+            font-size:18px;
+            background: rgba(0,0,0,0.45);
+            padding:6px 9px;
+            border-radius:50%;
+            z-index:2;
+          ">
+            📷
+          </div>
+
           <div class="video-wrap">
             <iframe
               src="{embed_url}"
@@ -297,8 +311,9 @@ def youtube_card(embed_url: str):
           </div>
         </div>
         """,
-        height=430,
+        height=500,
     )
+
 
 # -------------------------
 # PAGES
