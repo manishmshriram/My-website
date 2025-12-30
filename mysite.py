@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # =========================================================
-# [1] PAGE CONFIG (keep as-is)
+# [1] PAGE CONFIG
 # =========================================================
 st.set_page_config(
     page_title="Manish Shriram",
@@ -11,143 +11,125 @@ st.set_page_config(
 )
 
 # =========================================================
-# [2] YOUR CONTENT (CHANGE HERE)
+# [2] CONTENT
 # =========================================================
 video_links = [
-    "https://www.youtube.com/embed/oMDsZA73fJg?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/NNHJxvZxyoM?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/gs80fqMsU6M?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/OFvm21z8L-M?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/o4XQkw0k5To?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/ZUhU4izZbi0?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/wDzCeqzgmoA?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/PPOYOUFk4Hw?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/WAsDEw1HKG4?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/y6JbWgHx7po?enablejsapi=1&mute=1",
-    "https://www.youtube.com/embed/aNFGiVwt4uE?enablejsapi=1&mute=1",
+    "https://www.youtube.com/embed/oMDsZA73fJg",
+    "https://www.youtube.com/embed/NNHJxvZxyoM",
+    "https://www.youtube.com/embed/gs80fqMsU6M",
+    "https://www.youtube.com/embed/OFvm21z8L-M",
 ]
 
 SHORT_STORY_TITLE = "100th Night"
 SHORT_STORY_URL = "https://manishshriram.art.blog/"
-INSTAGRAM_URL = "https://www.instagram.com/yourprofilelink"
 
-# ✅ ADDED — YOUR PHOTO (RAW GITHUB IMAGE)
+# ✅ FIXED PHOTO URL (RAW)
 ABOUT_IMAGE_URL = "https://raw.githubusercontent.com/manishmshriram/My-website/main/My%20Images.jpg"
 
 ABOUT_TEXT = """Welcome to my corner of the internet.
 
-A storyteller, editor, and dreamer. My work lives in moments – between nostalgia and light.
+A storyteller, editor, and dreamer.
+My work lives between nostalgia and light.
 These edits are fragments of my memory reel.
 """
 
 # =========================================================
-# [3] THEME + CINEMATIC MOVING BACKGROUND (keep as-is)
+# [3] STYLE (cinematic, soft, rounded)
 # =========================================================
-BG = "#caa24a"
-BG_2 = "#e2c36c"
-INK = "#121214"
-INK_MUTED = "#2a2a2f"
+st.markdown("""
+<style>
+.stApp {
+  background: radial-gradient(1200px 650px at 20% 5%, #e2c36c 0%, #caa24a 55%, #caa24a 100%);
+}
 
-st.markdown(
-    f"""
-    <style>
-      .video-card {{
-        border-radius: 22px;
-        overflow: hidden;
-        background: transparent;
-        border: none;
-        box-shadow: 0 12px 28px rgba(18,18,20,0.14);
-        transition: transform 220ms ease, box-shadow 220ms ease;
-      }}
+.video-card {
+  border-radius: 22px;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+  margin-bottom: 28px;
+}
 
-      .video-card:hover {{
-        transform: translateY(-4px) scale(1.035);
-        box-shadow: 0 20px 44px rgba(18,18,20,0.22);
-      }}
+.video-card:hover {
+  transform: scale(1.035);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.28);
+}
 
-      .video-wrap {{
-        position: relative;
-        width: 100%;
-        padding-top: 56.25%;
-      }}
+.video-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+}
 
-      .video-wrap iframe {{
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 22px;
-      }}
+.video-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+}
 
-      img {{
-        border-radius: 22px;
-        box-shadow: 0 16px 36px rgba(18,18,20,0.20);
-      }}
-    </style>
-    """,
-    unsafe_allow_html=True,
+.about-img img {
+  border-radius: 26px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+}
+</style>
+""", unsafe_allow_html=True)
+
+# =========================================================
+# [4] HEADER
+# =========================================================
+st.markdown("""
+<h1>Manish Shriram</h1>
+<p>Cinephile minimal — edits, stories, and memory reels.</p>
+<hr>
+""", unsafe_allow_html=True)
+
+# =========================================================
+# [5] NAV
+# =========================================================
+page = st.radio(
+    "",
+    ["🎬 Edits", "✍️ Short Story", "🙂 About Me"],
+    horizontal=True
 )
 
 # =========================================================
-# [6] HELPERS
+# [6] VIDEO CARD (ONE AT A TIME)
 # =========================================================
-def youtube_card(embed_url: str):
+def youtube_card(url):
     components.html(
         f"""
-        <div class="video-card"
-             onmouseenter="playVideo(this)"
-             onmouseleave="pauseVideo(this)">
+        <div class="video-card">
           <div class="video-wrap">
             <iframe
-              src="{embed_url}"
+              src="{url}"
               frameborder="0"
               allow="autoplay; encrypted-media"
-              allowfullscreen
-            ></iframe>
+              allowfullscreen>
+            </iframe>
           </div>
         </div>
-
-        <script>
-          function playVideo(card) {{
-            const iframe = card.querySelector("iframe");
-            iframe.contentWindow.postMessage(
-              '{{"event":"command","func":"unMute","args":""}}',
-              '*'
-            );
-            iframe.contentWindow.postMessage(
-              '{{"event":"command","func":"playVideo","args":""}}',
-              '*'
-            );
-          }}
-
-          function pauseVideo(card) {{
-            const iframe = card.querySelector("iframe");
-            iframe.contentWindow.postMessage(
-              '{{"event":"command","func":"pauseVideo","args":""}}',
-              '*'
-            );
-            iframe.contentWindow.postMessage(
-              '{{"event":"command","func":"mute","args":""}}',
-              '*'
-            );
-          }}
-        </script>
         """,
-        height=300,
+        height=360
     )
 
 # =========================================================
 # [7] PAGES
 # =========================================================
-selected = st.session_state.get("page", "🎬 Edits")
-
-if selected == "🎬 Edits":
+if page == "🎬 Edits":
     for url in video_links:
         youtube_card(url)
 
-elif selected == "🙂 About Me":
-    c1, c2 = st.columns([1, 2], gap="large")
-    with c1:
+elif page == "✍️ Short Story":
+    st.markdown(f"### {SHORT_STORY_TITLE}")
+    st.markdown(f"[Read the full story →]({SHORT_STORY_URL})", unsafe_allow_html=True)
+
+elif page == "🙂 About Me":
+    col1, col2 = st.columns([1, 2], gap="large")
+    with col1:
+        st.markdown("<div class='about-img'>", unsafe_allow_html=True)
         st.image(ABOUT_IMAGE_URL, use_container_width=True)
-    with c2:
+        st.markdown("</div>", unsafe_allow_html=True)
+    with col2:
         st.markdown(ABOUT_TEXT)
