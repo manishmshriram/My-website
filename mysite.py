@@ -331,21 +331,22 @@ elif selected == "✍️ Short Story":
 
 elif selected == "🙂 About Me":
     title("About Me")
-
     c1, c2 = st.columns([1, 2], gap="large")
 
     with c1:
-        st.image(https://github.com/manishmshriram/My-website/blob/main/My%20Images.jpg, use_container_width=True)
+        st.image(
+            "https://raw.githubusercontent.com/manishmshriram/My-website/main/My%20Images.jpg",
+            use_container_width=True
+        )
 
     with c2:
         st.markdown(
-            f"""
-            <div style="font-size:1.08rem; line-height:1.7; color:{INK};">
-              {ABOUT_TEXT.replace("\n", "<br>")}
-            </div>
-            """,
+            f"<div style='font-size:1.08rem; line-height:1.7; color:{INK};'>"
+            f"{ABOUT_TEXT.replace(chr(10), '<br>')}"
+            f"</div>",
             unsafe_allow_html=True,
         )
+
 
 elif selected == "📷 Instagram":
     title("Instagram")
