@@ -404,7 +404,7 @@ elif selected == "🙂 About Me":
     c1, c2 = st.columns([1, 2], gap="large")
 
     with c1:
-        st.image(ABOUT_IMAGE_URL, use_container_width=True)
+        st.image(https://github.com/manishmshriram/My-website/blob/main/My%20Images.jpg, use_container_width=True)
     with c2:
         st.markdown(
             f"<div style='font-size:1.08rem; line-height:1.7; color:{INK};'>"
