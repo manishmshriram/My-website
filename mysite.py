@@ -175,21 +175,22 @@ st.markdown(
         letter-spacing: 0.2px;
       }}
 
-      /* Video card with hover effect */
-      .video-card {
-  border-radius: 20px;
-  overflow: hidden;
-  background: transparent;
-  border: 1.2px solid rgba(18,18,20,0.35);
-  box-shadow: none;
-  transform: translateY(0);
-  transition: transform 420ms ease, box-shadow 420ms ease;
-}
+            /* Video card with hover effect */
+      .video-card {{
+        border-radius: 20px;
+        overflow: hidden;
+        background: transparent;
+        border: 1.2px solid rgba(18,18,20,0.35);
+        box-shadow: none;
+        transform: translateY(0);
+        transition: transform 420ms ease, box-shadow 420ms ease;
+      }}
 
-     .video-card:hover {
-  transform: scale(1.045);
-  box-shadow: 0 25px 60px rgba(18,18,20,0.22);
-}
+      .video-card:hover {{
+        transform: scale(1.045);
+        box-shadow: 0 25px 60px rgba(18,18,20,0.22);
+      }}
+
 
 
       /* Responsive 16:9 wrapper */
