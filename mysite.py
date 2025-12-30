@@ -406,7 +406,7 @@ elif selected == "📷 Instagram":
           Find me on Instagram.
         </div>
 
-        <a href='https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==' target="_blank"
+        <a href="https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==" target="_blank"
            style="
              display:inline-block;
              padding:12px 16px;
