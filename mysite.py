@@ -287,37 +287,41 @@ def youtube_card(embed_url: str):
         f"""
         <div style="
             position: relative;
-            border-radius: 22px;
+            border-radius: 18px;
             overflow: hidden;
-            border: 1.2px solid rgba(18,18,20,0.35);
-            background: transparent;
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-        "
-        onmouseover="
-            this.style.transform='scale(1.06)';
-            this.style.boxShadow='0 30px 70px rgba(18,18,20,0.28)';
-        "
-        onmouseout="
-            this.style.transform='scale(1)';
-            this.style.boxShadow='none';
-        "
-        >
+            border: 1.4px solid rgba(30,30,35,0.45);
+            background: black;
+        ">
 
-            <!-- Camera Icon -->
+            <!-- Film Top Strip -->
             <div style="
                 position: absolute;
-                top: 14px;
-                right: 16px;
-                z-index: 10;
-                font-size: 18px;
-                background: rgba(0,0,0,0.55);
-                color: white;
-                padding: 6px 9px;
-                border-radius: 50%;
-                backdrop-filter: blur(4px);
-            ">
-                📷
-            </div>
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 28px;
+                background: linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.85),
+                    rgba(0,0,0,0.25)
+                );
+                z-index: 5;
+            "></div>
+
+            <!-- Film Bottom Strip -->
+            <div style="
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 28px;
+                background: linear-gradient(
+                    to top,
+                    rgba(0,0,0,0.85),
+                    rgba(0,0,0,0.25)
+                );
+                z-index: 5;
+            "></div>
 
             <!-- Video -->
             <div style="
@@ -340,8 +344,9 @@ def youtube_card(embed_url: str):
 
         </div>
         """,
-        height=520,
+        height=500,
     )
+
 
 # -------------------------
 # PAGES
@@ -393,25 +398,18 @@ elif selected == "🙂 About Me":
 
 
 elif selected == "📷 Instagram":
-    title("Instagram")
+    st.title("Instagram")
 
     st.markdown(
-        f"""
-        <div style="color:{INK_MUTED}; font-size:1.02rem; margin-bottom:12px;">
-          Find me on Instagram.
-        </div>
-
-        <a href="https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==" target="_blank"
-           style="
-             display:inline-block;
-             padding:12px 16px;
-             border-radius:999px;
-             border:1px solid rgba(18,18,20,0.35);
-             background: rgba(18,18,20,0.10);
-             font-weight:700;
-           ">
-           Open Instagram →
-        </a>
+        """
+        <p style="color:#777; font-size:1.05rem;">
+        Find me on Instagram.
+        </p>
         """,
-        unsafe_allow_html=True,
+        unsafe_allow_html=True
+    )
+
+    st.link_button(
+        "Open Instagram →",
+        "https://www.instagram.com/m.m.shriram/"
     )
