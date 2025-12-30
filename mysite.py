@@ -39,7 +39,7 @@ This is my website
 I’m a movie lover who edits favourite songs onto favourite scenes—because feelings are easier with background music.
 If you’re here for edits, stories, or a tasteful amount of emotional damage, you’re in the right place.
 
-I’m adding my face so the site feels human.....also just limiting eye contact. 
+Here’s an awkward photo. I’m adding my face so the site feels human; just limiting eye contact.
 """
 
 # -------------------------
