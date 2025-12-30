@@ -405,18 +405,12 @@ elif selected == "📷 Instagram":
         <div style="color:{INK_MUTED}; font-size:1.02rem; margin-bottom:12px;">
           Find me on Instagram.
         </div>
-
-        <a href="https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==" target="_blank"
-           style="
-             display:inline-block;
-             padding:12px 16px;
-             border-radius:999px;
-             border:1px solid rgba(18,18,20,0.35);
-             background: rgba(18,18,20,0.10);
-             font-weight:700;
-           ">
-           Open Instagram →
-        </a>
         """,
         unsafe_allow_html=True,
+    )
+
+    st.link_button(
+        "Open Instagram →",
+        "https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==",
+        use_container_width=False,
     )
