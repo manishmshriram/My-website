@@ -248,7 +248,7 @@ st.markdown(
       <span class="en">Manish Shriram</span>
       <span class="hi">मनिष श्रीराम</span>
     </div>
-    <div class="subline">Cinelover minimal — edits, stories, and memory reels.</div>
+    <div class="subline">Edits | Short Story | prime years, wasted tastefully.</div>
     """,
     unsafe_allow_html=True,
 )
