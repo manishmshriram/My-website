@@ -285,35 +285,63 @@ def title(text: str):
 def youtube_card(embed_url: str):
     components.html(
         f"""
-        <div class="video-card" style="position:relative;">
-          
-          <div style="
-            position:absolute;
-            top:12px;
-            right:14px;
-            font-size:18px;
-            background: rgba(0,0,0,0.45);
-            padding:6px 9px;
-            border-radius:50%;
-            z-index:2;
-          ">
-            📷
-          </div>
+        <div style="
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1.2px solid rgba(18,18,20,0.35);
+            background: transparent;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        "
+        onmouseover="
+            this.style.transform='scale(1.06)';
+            this.style.boxShadow='0 30px 70px rgba(18,18,20,0.28)';
+        "
+        onmouseout="
+            this.style.transform='scale(1)';
+            this.style.boxShadow='none';
+        "
+        >
 
-          <div class="video-wrap">
-            <iframe
-              src="{embed_url}"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
-          </div>
+            <!-- Camera Icon -->
+            <div style="
+                position: absolute;
+                top: 14px;
+                right: 16px;
+                z-index: 10;
+                font-size: 18px;
+                background: rgba(0,0,0,0.55);
+                color: white;
+                padding: 6px 9px;
+                border-radius: 50%;
+                backdrop-filter: blur(4px);
+            ">
+                📷
+            </div>
+
+            <!-- Video -->
+            <div style="
+                position: relative;
+                width: 100%;
+                padding-top: 56.25%;
+            ">
+                <iframe
+                    src="{embed_url}"
+                    style="
+                        position: absolute;
+                        inset: 0;
+                        width: 100%;
+                        height: 100%;
+                        border: none;
+                    "
+                    allowfullscreen
+                ></iframe>
+            </div>
+
         </div>
         """,
-        height=500,
+        height=520,
     )
-
 
 # -------------------------
 # PAGES
@@ -373,7 +401,7 @@ elif selected == "📷 Instagram":
           Find me on Instagram.
         </div>
 
-        <a href="{https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==}" target="_blank"
+        <a href="https://www.instagram.com/m.m.shriram?igsh=MXNqaTFnODZ3b216ZA==" target="_blank"
            style="
              display:inline-block;
              padding:12px 16px;
